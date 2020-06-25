@@ -481,6 +481,10 @@ void SerialManager::setPort(const quint8 portIndex)
     qInfo() << Q_FUNC_INFO << "Serial port selection set to" << portName();
 }
 
+/**
+ * @brief SerialManager::setParity
+ * @param parityIndex
+ */
 void SerialManager::setParity(const quint8 parityIndex)
 {
     // Argument verification
@@ -801,7 +805,7 @@ void SerialManager::disconnectDevice()
 void SerialManager::reduceDocumentSize()
 {
     if (m_textDocument && m_textCursor) {
-        if (m_textCursor->position() > 1024)
+        if (m_textCursor->position() > 10 * (1024))
             m_textDocument->textDocument()->clear();
     }
 }

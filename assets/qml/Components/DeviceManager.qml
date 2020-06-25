@@ -20,9 +20,9 @@
  * THE SOFTWARE.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 
 import "../Widgets" as Widgets
 
@@ -76,44 +76,7 @@ Widgets.Window {
         // Spacer
         //
         Item {
-            Layout.fillHeight: true
-        }
-
-        //
-        // RX LED
-        //
-        Widgets.LED {
-            id: _rx
-            enabled: false
-            text: qsTr("RX")
-            Layout.fillWidth: true
-
-            Connections {
-                target: CppSerialManager
-                onRx: _rx.flash()
-            }
-        }
-
-        //
-        // RX LED
-        //
-        Widgets.LED {
-            id: _tx
-            enabled: false
-            text: qsTr("TX")
-            Layout.fillWidth: true
-
-            Connections {
-                target: CppSerialManager
-                onTx: _tx.flash()
-            }
-        }
-
-        //
-        // Spacer
-        //
-        Item {
-            Layout.fillHeight: true
+            height: app.spacing * 2
         }
 
         //
@@ -184,27 +147,51 @@ Widgets.Window {
         }
 
         //
-        // Start sequence string
+        // RX/TX LEDs
         //
-        Label {
-            text: qsTr("Packet start sequence") + ":"
-        } TextField {
-            Layout.fillWidth: true
-            font.family: app.monoFont
-            text: CppSerialManager.startSequence
-            onTextChanged: CppSerialManager.startSequence = text
+        RowLayout {
+            spacing: app.spacing
+            Layout.alignment: Qt.AlignHCenter
+
+            Widgets.LED {
+                id: _rx
+                enabled: false
+                Layout.alignment: Qt.AlignVCenter
+
+                Connections {
+                    target: CppSerialManager
+                    function onRx() {
+                        _rx.flash()
+                    }
+                }
+            }
+
+            Label {
+                text: "RX // TX"
+                font.family: app.monoFont
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Widgets.LED {
+                id: _tx
+                enabled: false
+                layoutDirection: Qt.RightToLeft
+                Layout.alignment: Qt.AlignVCenter
+
+                Connections {
+                    target: CppSerialManager
+                    function onTx() {
+                        _tx.flash()
+                    }
+                }
+            }
         }
 
         //
-        // End sequence selector
+        // Spacer
         //
-        Label {
-            text: qsTr("Packet end sequence") + ":"
-        } TextField {
-            Layout.fillWidth: true
-            font.family: app.monoFont
-            text: CppSerialManager.finishSequence
-            onTextChanged: CppSerialManager.finishSequence = text
+        Item {
+            Layout.fillHeight: true
         }
     }
 }

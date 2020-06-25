@@ -1,16 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/main.qml</file>
-        <file>qml/UI.qml</file>
-        <file>qml/Dialogs/About.qml</file>
-        <file>qml/Dialogs/Preferences.qml</file>
-        <file>images/logo-red.svg</file>
-        <file>images/logo-white.svg</file>
         <file>icons/ac-power.svg</file>
         <file>icons/backspace.svg</file>
         <file>icons/battery.svg</file>
         <file>icons/bug.svg</file>
         <file>icons/code.svg</file>
+        <file>icons/copy.svg</file>
         <file>icons/delete.svg</file>
         <file>icons/developer-board.svg</file>
         <file>icons/device-hub.svg</file>
@@ -31,19 +26,23 @@
         <file>icons/settings.svg</file>
         <file>icons/terminal.svg</file>
         <file>icons/usb.svg</file>
+        <file>icons/warning.svg</file>
+        <file>images/logo-retro.svg</file>
+        <file>images/logo.svg</file>
         <file>qml/Components/Console.qml</file>
         <file>qml/Components/DataGrid.qml</file>
         <file>qml/Components/DeviceManager.qml</file>
         <file>qml/Components/GraphGrid.qml</file>
         <file>qml/Components/ToolBar.qml</file>
+        <file>qml/Dialogs/About.qml</file>
+        <file>qml/Dialogs/Preferences.qml</file>
         <file>qml/Widgets/CategoryDelegate.qml</file>
         <file>qml/Widgets/DataDelegate.qml</file>
         <file>qml/Widgets/GraphDelegate.qml</file>
+        <file>qml/Widgets/LED.qml</file>
         <file>qml/Widgets/MapDelegate.qml</file>
         <file>qml/Widgets/Window.qml</file>
-        <file>icons/copy.svg</file>
-        <file>icons/warning.svg</file>
-        <file>qml/Widgets/LED.qml</file>
-        <file>images/background.jpg</file>
+        <file>qml/main.qml</file>
+        <file>qml/UI.qml</file>
     </qresource>
 </RCC>

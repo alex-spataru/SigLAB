@@ -20,9 +20,9 @@
  * THE SOFTWARE.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 
 import "Widgets" as Widgets
 import "Components" as Components
@@ -54,7 +54,7 @@ Page {
             Layout.fillHeight: true
 
             //
-            // Central image
+            // Data display widget
             //
             Widgets.Window {
                 id: dataDis
@@ -64,10 +64,43 @@ Page {
                 title: qsTr("Data Display")
                 enabled: toolbar.dataDisChecked
 
-                Image {
-                    anchors.centerIn: parent
-                    source: "qrc:/images/logo-white.svg"
-                    sourceSize.width: Math.min(480, app.width * 0.8)
+                TabBar {
+                    id: tabBar
+                    contentHeight: 32
+
+                    anchors {
+                        leftMargin: 3
+                        rightMargin: 3
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                    }
+
+                    TabButton {
+                        text: qsTr("Data")
+                    }
+
+                    TabButton {
+                        text: qsTr("Graphs")
+                    }
+                }
+
+                StackLayout {
+                    anchors.fill: parent
+                    anchors.topMargin: tabBar.height
+                    currentIndex: tabBar.currentIndex
+
+                    Components.DataGrid {
+                        id: dataGrid
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
+
+                    Components.GraphGrid {
+                        id: graphGrid
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
                 }
             }
 

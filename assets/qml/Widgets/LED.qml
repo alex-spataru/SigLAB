@@ -20,9 +20,9 @@
  * THE SOFTWARE.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 
 RowLayout {
     id: _led
@@ -31,6 +31,7 @@ RowLayout {
     //
     // Custom properties
     //
+    property alias label: _label
     property alias indicator: _dot
     property alias text: _label.text
     property alias font: _label.font
@@ -63,8 +64,8 @@ RowLayout {
     //
     Rectangle {
         id: _dot
-        width: 12
-        height: 12
+        width: 18
+        height: 18
         radius: width / 2
         Layout.alignment: Qt.AlignVCenter
         color: _led.enabled ? _led.onColor : _led.offColor
@@ -75,7 +76,7 @@ RowLayout {
     //
     Label {
         id: _label
-        Layout.fillWidth: true
+        font.family: app.monoFont
         Layout.alignment: Qt.AlignVCenter
     }
 }
