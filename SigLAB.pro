@@ -62,9 +62,9 @@ win32* {
 
 macx* {
     TARGET = SigLAB
-    ICON = deploy/mac-osx/icon.icns
-    RC_FILE = deploy/mac-osx/icon.icns
-    QMAKE_INFO_PLIST = deploy/mac-osx/info.plist
+    ICON = deploy/mac/icon.icns
+    RC_FILE = deploy/mac/icon.icns
+    QMAKE_INFO_PLIST = deploy/mac/info.plist
     QMAKE_POST_LINK = macdeployqt SigLAB.app -qmldir=$$PWD/assets/qml
 }
 
