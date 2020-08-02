@@ -49,13 +49,17 @@ JsonParser* JsonParser::getInstance() {
 }
 
 /**
- * Returns the parsed JSON document from the received
- * packet
+ * Returns the parsed JSON document from the received packet
  */
 QJsonDocument JsonParser::document() {
     return m_document;
 }
 
+/**
+ * Tries to parse the given data as a JSON document.
+ * If JSON parsing is successfull, then the class shall notify the rest of the
+ * application in order to process packet data.
+ */
 void JsonParser::readData(const QByteArray& data) {
     if (!data.isEmpty()) {
         QJsonParseError error;
