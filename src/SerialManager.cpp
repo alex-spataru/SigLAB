@@ -47,8 +47,8 @@ SerialManager::SerialManager()
     setFlowControl(flowControlList().indexOf(tr("No Flow Control")));
 
     // Init start/finish sequence strings
-    setStartSequence("__start__");
-    setFinishSequence("__finish__");
+    setStartSequence("/*");
+    setFinishSequence("*/");
     setMaxBufferSize(5 * 1024 * 1024);
 
     // Build serial devices list
@@ -766,6 +766,30 @@ void SerialManager::onDataReceived()
 
         // Add data to temp. buffer
         m_tempBuffer.append(data);
+
+        // Check if data contains start sequence
+        auto start = startSequence().toUtf8();
+        auto finish = finishSequence().toUtf8();
+        if (m_tempBuffer.contains(start)) {
+            // Begin reading from start sequence index
+            auto buffer = m_tempBuffer;
+            auto sIndex = m_tempBuffer.indexOf(start);
+            buffer.remove(0, sIndex + start.length());
+
+            // Check that new buffer contains finish sequence
+            if (!buffer.contains(finish))
+                return;
+
+            // Remove bytes outside start/end sequence range
+            auto fIndex = buffer.indexOf(finish);
+            buffer.remove(fIndex, buffer.length() - fIndex);
+
+            // Buffer is not empty, notify app & remove read data from buffer
+            if (!buffer.isEmpty()) {
+                emit packetReceived(buffer);
+                m_tempBuffer.remove(0, sIndex + fIndex + finish.length());
+            }
+        }
     }
 }
 

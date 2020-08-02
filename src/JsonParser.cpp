@@ -20,8 +20,49 @@
  * THE SOFTWARE.
  */
 
-#ifndef DATA_PARSER_H
-#define DATA_PARSER_H
+#include "JsonParser.h"
+#include "SerialManager.h"
 
+/*
+ * Only instance of the class
+ */
+static JsonParser* INSTANCE = nullptr;
 
-#endif
+/**
+ * Initializes the JSON Parser class and connects
+ * appropiate SIGNALS/SLOTS
+ */
+JsonParser::JsonParser() {
+    auto sm = SerialManager::getInstance();
+    connect(sm, SIGNAL(packetReceived(QByteArray)),
+            this, SLOT(readData(QByteArray)));
+}
+
+/**
+ * Returns the only instance of the class
+ */
+JsonParser* JsonParser::getInstance() {
+    if (!INSTANCE)
+        INSTANCE = new JsonParser();
+
+    return INSTANCE;
+}
+
+/**
+ * Returns the parsed JSON document from the received
+ * packet
+ */
+QJsonDocument JsonParser::document() {
+    return m_document;
+}
+
+void JsonParser::readData(const QByteArray& data) {
+    if (!data.isEmpty()) {
+        QJsonParseError error;
+        auto document = QJsonDocument::fromJson(data, &error);
+        if (error.error == QJsonParseError::NoError) {
+            m_document = document;
+            emit packetReceived();
+        }
+    }
+}

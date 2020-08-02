@@ -65,7 +65,7 @@ macx* {
     ICON = deploy/mac/icon.icns
     RC_FILE = deploy/mac/icon.icns
     QMAKE_INFO_PLIST = deploy/mac/info.plist
-    QMAKE_POST_LINK = macdeployqt SigLAB.app -qmldir=$$PWD/assets/qml
+    #QMAKE_POST_LINK = macdeployqt SigLAB.app -qmldir=$$PWD/assets/qml
 }
 
 linux:!android {
@@ -87,17 +87,17 @@ RESOURCES += \
 
 HEADERS += \
     src/AppInfo.h \
-    src/CSV_Export.h \
     src/Categories.h \
     src/DataBridge.h \
-    src/DataParser.h \
+    src/DataExport.h \
+    src/JsonParser.h \
     src/SerialManager.h
 
 SOURCES += \
-    src/CSV_Export.cpp \
     src/Categories.cpp \
     src/DataBridge.cpp \
-    src/DataParser.cpp \
+    src/DataExport.cpp \
+    src/JsonParser.cpp \
     src/SerialManager.cpp \
     src/main.cpp
 

@@ -26,6 +26,7 @@
 #include <QQmlApplicationEngine>
 
 #include "AppInfo.h"
+#include "JsonParser.h"
 #include "SerialManager.h"
 
 int main(int argc, char** argv)
@@ -41,11 +42,13 @@ int main(int argc, char** argv)
     app.setOrganizationDomain(APP_SUPPORT_URL);
 
     // Init application modules
+    auto dataParser = JsonParser::getInstance();
     auto serialManager = SerialManager::getInstance();
 
     // Init QML interface
     QQmlApplicationEngine engine;
     QQuickStyle::setStyle("Fusion");
+    engine.rootContext()->setContextProperty("CppDataParser", dataParser);
     engine.rootContext()->setContextProperty("CppSerialManager", serialManager);
     engine.rootContext()->setContextProperty("CppAppName", app.applicationName());
     engine.rootContext()->setContextProperty("CppAppVersion", app.applicationVersion());
