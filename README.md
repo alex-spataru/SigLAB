@@ -1,5 +1,5 @@
 <a href="#">
-    <img width="192px" height="192px" src="doc/icon_small.png" align="right" />
+    <img width="192px" height="192px" src="doc/icon.png" align="right" />
 </a>
 
 # SigLAB
