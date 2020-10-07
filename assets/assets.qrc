@@ -27,8 +27,6 @@
         <file>icons/terminal.svg</file>
         <file>icons/usb.svg</file>
         <file>icons/warning.svg</file>
-        <file>images/logo-retro.svg</file>
-        <file>images/logo.svg</file>
         <file>qml/Components/Console.qml</file>
         <file>qml/Components/DataGrid.qml</file>
         <file>qml/Components/DeviceManager.qml</file>
