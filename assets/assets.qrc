@@ -36,7 +36,6 @@
         <file>qml/Components/ToolBar.qml</file>
         <file>qml/Dialogs/About.qml</file>
         <file>qml/Dialogs/Preferences.qml</file>
-        <file>qml/Widgets/CategoryDelegate.qml</file>
         <file>qml/Widgets/DataDelegate.qml</file>
         <file>qml/Widgets/GraphDelegate.qml</file>
         <file>qml/Widgets/LED.qml</file>
@@ -44,5 +43,6 @@
         <file>qml/Widgets/Window.qml</file>
         <file>qml/main.qml</file>
         <file>qml/UI.qml</file>
+        <file>qml/Widgets/GroupDelegate.qml</file>
     </qresource>
 </RCC>

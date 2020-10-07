@@ -62,10 +62,31 @@ win32* {
 
 macx* {
     TARGET = SigLAB
-    ICON = deploy/mac/icon.icns
-    RC_FILE = deploy/mac/icon.icns
-    QMAKE_INFO_PLIST = deploy/mac/info.plist
-    #QMAKE_POST_LINK = macdeployqt SigLAB.app -qmldir=$$PWD/assets/qml
+
+    ICON = deploy/macOS/icon.icns
+    RC_FILE = deploy/macOS/icon.icns
+    QMAKE_INFO_PLIST = deploy/macOS/info.plist
+
+    # DMG generation constants
+    BUNDLE_FILENAME = $${TARGET}.app
+    DMG_FILENAME = "SigLAB.dmg"
+   
+    # Target for pretty DMG generation
+    dmg.commands += echo "Generate DMG";
+    dmg.commands += macdeployqt $$BUNDLE_FILENAME -qmldir=$$PWD/assets/qml &&
+    dmg.commands += create-dmg \
+          --volname $${TARGET} \
+          --background $${PWD}/deploy/macOS/dmg_bg.png \
+          --icon $${BUNDLE_FILENAME} 150 218 \
+          --window-pos 200 120 \
+          --window-size 600 450 \
+          --icon-size 100 \
+          --hdiutil-quiet \
+          --app-drop-link 450 218 \
+          $${DMG_FILENAME} \
+          $${BUNDLE_FILENAME}
+
+    QMAKE_EXTRA_TARGETS += dmg
 }
 
 linux:!android {
@@ -87,17 +108,19 @@ RESOURCES += \
 
 HEADERS += \
     src/AppInfo.h \
-    src/Categories.h \
-    src/DataBridge.h \
-    src/DataExport.h \
+    src/Dataset.h \
+    src/Export.h \
+    src/Group.h \
     src/JsonParser.h \
+    src/QmlBridge.h \
     src/SerialManager.h
 
 SOURCES += \
-    src/Categories.cpp \
-    src/DataBridge.cpp \
-    src/DataExport.cpp \
+    src/Dataset.cpp \
+    src/Export.cpp \
+    src/Group.cpp \
     src/JsonParser.cpp \
+    src/QmlBridge.cpp \
     src/SerialManager.cpp \
     src/main.cpp
 
@@ -108,9 +131,9 @@ DISTFILES += \
     assets/qml/Components/GraphGrid.qml \
     assets/qml/Components/ToolBar.qml \
     assets/qml/UI.qml \
-    assets/qml/Widgets/CategoryDelegate.qml \
     assets/qml/Widgets/DataDelegate.qml \
     assets/qml/Widgets/GraphDelegate.qml \
+    assets/qml/Widgets/GroupDelegate.qml \
     assets/qml/Widgets/LED.qml \
     assets/qml/Widgets/MapDelegate.qml \
     assets/qml/Widgets/Window.qml \
