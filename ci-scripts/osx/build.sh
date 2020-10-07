@@ -5,4 +5,3 @@ export CPPFLAGS="-I/usr/local/opt/qt/include"
 qmake SigLAB.pro
 make
 make dmg
-cp SigLAB-* ../
