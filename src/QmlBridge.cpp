@@ -31,106 +31,127 @@
 /*
  * Only instance of the class
  */
-static QmlBridge* INSTANCE = nullptr;
+static QmlBridge *INSTANCE = nullptr;
 
-QmlBridge::QmlBridge() {
-    auto jp = JsonParser::getInstance();
-    connect(jp, SIGNAL(packetReceived()),
-            this, SLOT(update()));
+QmlBridge::QmlBridge()
+{
+   auto jp = JsonParser::getInstance();
+   connect(jp, SIGNAL(packetReceived()), this, SLOT(update()));
 }
 
-QmlBridge* QmlBridge::getInstance() {
-    if (!INSTANCE)
-        INSTANCE = new QmlBridge();
+QmlBridge *QmlBridge::getInstance()
+{
+   if (!INSTANCE)
+      INSTANCE = new QmlBridge();
 
-    return INSTANCE;
+   return INSTANCE;
 }
 
-QString QmlBridge::projectTitle() const {
-    return m_title;
+QString QmlBridge::projectTitle() const
+{
+   return m_title;
 }
 
-int QmlBridge::groupCount() const {
-    return groups().count();
+int QmlBridge::groupCount() const
+{
+   return groups().count();
 }
 
-QList<Group*> QmlBridge::groups() const {
-    return m_groups;
+QList<Group *> QmlBridge::groups() const
+{
+   return m_groups;
 }
 
-Group* QmlBridge::getGroup(const int index) {
-    if (index < groupCount())
-        return groups().at(index);
+Group *QmlBridge::getGroup(const int index)
+{
+   if (index < groupCount())
+      return groups().at(index);
 
-    return Q_NULLPTR;
+   return Q_NULLPTR;
 }
 
-Group* QmlBridge::gpsGroup() const {
-    foreach(Group* group, groups()) {
-        if (group->title().toLower() == "gps")
-            return group;
-    }
+Group *QmlBridge::gpsGroup() const
+{
+   foreach (Group *group, groups())
+   {
+      if (group->title().toLower() == "gps")
+         return group;
+   }
 
-    return Q_NULLPTR;
+   return Q_NULLPTR;
 }
 
-bool QmlBridge::gpsSupported() const {
-    return gpsGroup() != Q_NULLPTR;
+bool QmlBridge::gpsSupported() const
+{
+   return gpsGroup() != Q_NULLPTR;
 }
 
-double QmlBridge::gpsAltitude() const {
-    if (gpsSupported()) {
-        foreach(Dataset* set, gpsGroup()->datasets()) {
-            if (set->title().toLower() == "altitude")
-                return set->value().toDouble();
-        }
-    }
+double QmlBridge::gpsAltitude() const
+{
+   if (gpsSupported())
+   {
+      foreach (Dataset *set, gpsGroup()->datasets())
+      {
+         if (set->title().toLower() == "altitude")
+            return set->value().toDouble();
+      }
+   }
 
-    return 0;
+   return 0;
 }
 
-double QmlBridge::gpsLatitude() const {
-    if (gpsSupported()) {
-        foreach(Dataset* set, gpsGroup()->datasets()) {
-            if (set->title().toLower() == "latitude")
-                return set->value().toDouble();
-        }
-    }
+double QmlBridge::gpsLatitude() const
+{
+   if (gpsSupported())
+   {
+      foreach (Dataset *set, gpsGroup()->datasets())
+      {
+         if (set->title().toLower() == "latitude")
+            return set->value().toDouble();
+      }
+   }
 
-    return 0;
+   return 0;
 }
 
-double QmlBridge::gpsLongitude() const {
-    if (gpsSupported()) {
-        foreach(Dataset* set, gpsGroup()->datasets()) {
-            if (set->title().toLower() == "longitude")
-                return set->value().toDouble();
-        }
-    }
+double QmlBridge::gpsLongitude() const
+{
+   if (gpsSupported())
+   {
+      foreach (Dataset *set, gpsGroup()->datasets())
+      {
+         if (set->title().toLower() == "longitude")
+            return set->value().toDouble();
+      }
+   }
 
-    return 0;
+   return 0;
 }
 
-void QmlBridge::update() {
-    auto document = JsonParser::getInstance()->document();
-    if (!document.isEmpty()) {
-        auto object = document.object();
-        auto title = object.value("title").toString();
-        auto groups = object.value("groups").toArray();
+void QmlBridge::update()
+{
+   auto document = JsonParser::getInstance()->document();
+   if (!document.isEmpty())
+   {
+      auto object = document.object();
+      auto title = object.value("title").toString();
+      auto groups = object.value("groups").toArray();
 
-        if (!title.isEmpty() && !groups.isEmpty()) {
-            m_title = title;
-            m_groups.clear();
+      if (!title.isEmpty() && !groups.isEmpty())
+      {
+         m_title = title;
+         m_groups.clear();
 
-            for (auto i = 0; i < groups.count(); ++i) {
-                auto group = new Group(this);
-                if (group->read(groups.at(i).toObject()))
-                    m_groups.append(group);
-                else
-                    group->deleteLater();
-            }
+         for (auto i = 0; i < groups.count(); ++i)
+         {
+            auto group = new Group(this);
+            if (group->read(groups.at(i).toObject()))
+               m_groups.append(group);
+            else
+               group->deleteLater();
+         }
 
-            emit updated();
-        }
-    }
+         emit updated();
+      }
+   }
 }

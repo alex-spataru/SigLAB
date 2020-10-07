@@ -22,40 +22,49 @@
 
 #include "Dataset.h"
 
-Dataset::Dataset(QObject* parent) : QObject(parent) {
+Dataset::Dataset(QObject *parent)
+   : QObject(parent)
+{
 }
 
-bool Dataset::graph() const {
-    return m_graph;
+bool Dataset::graph() const
+{
+   return m_graph;
 }
 
-QString Dataset::title() const {
-    return m_title;
+QString Dataset::title() const
+{
+   return m_title;
 }
 
-QString Dataset::value() const {
-    return m_value;
+QString Dataset::value() const
+{
+   return m_value;
 }
 
-QString Dataset::units() const {
-    return m_units;
+QString Dataset::units() const
+{
+   return m_units;
 }
 
-bool Dataset::read(const QJsonObject &object) {
-    if (!object.isEmpty()) {
-        auto graph = object.value("graph").toBool();
-        auto title = object.value("title").toString();
-        auto value = object.value("value").toString();
-        auto units = object.value("units").toString();
+bool Dataset::read(const QJsonObject &object)
+{
+   if (!object.isEmpty())
+   {
+      auto graph = object.value("graph").toBool();
+      auto title = object.value("title").toString();
+      auto value = object.value("value").toString();
+      auto units = object.value("units").toString();
 
-        if (!title.isEmpty() && !value.isEmpty()) {
-            m_graph = graph;
-            m_title = title;
-            m_value = value;
-            m_units = units;
-            return true;
-        }
-    }
+      if (!title.isEmpty() && !value.isEmpty())
+      {
+         m_graph = graph;
+         m_title = title;
+         m_value = value;
+         m_units = units;
+         return true;
+      }
+   }
 
-    return false;
+   return false;
 }

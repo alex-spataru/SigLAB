@@ -26,24 +26,25 @@
 #include <QObject>
 #include <QJsonObject>
 
-class Dataset : public QObject {
-    Q_OBJECT
+class Dataset : public QObject
+{
+   Q_OBJECT
 
 public:
-    Dataset(QObject* parent = nullptr);
+   Dataset(QObject *parent = nullptr);
 
-    bool graph() const;
-    QString title() const;
-    QString value() const;
-    QString units() const;
+   bool graph() const;
+   QString title() const;
+   QString value() const;
+   QString units() const;
 
-    bool read(const QJsonObject& object);
+   bool read(const QJsonObject &object);
 
 private:
-    bool m_graph;
-    QString m_title;
-    QString m_value;
-    QString m_units;
+   bool m_graph;
+   QString m_title;
+   QString m_value;
+   QString m_units;
 };
 
 #endif

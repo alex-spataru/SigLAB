@@ -29,22 +29,23 @@
 #include <QJsonObject>
 
 class Dataset;
-class Group : public QObject {
-    Q_OBJECT
+class Group : public QObject
+{
+   Q_OBJECT
 
 public:
-    Group(QObject* parent = nullptr);
+   Group(QObject *parent = nullptr);
 
-    int count() const;
-    QString title() const;
-    QList<Dataset*> datasets() const;
-    Dataset* getDataset(const int index);
+   int count() const;
+   QString title() const;
+   QList<Dataset *> datasets() const;
+   Dataset *getDataset(const int index);
 
-    bool read(const QJsonObject& object);
+   bool read(const QJsonObject &object);
 
 private:
-    QString m_title;
-    QList<Dataset*> m_datasets;
+   QString m_title;
+   QList<Dataset *> m_datasets;
 };
 
 #endif

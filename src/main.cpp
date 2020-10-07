@@ -29,38 +29,37 @@
 #include "QmlBridge.h"
 #include "SerialManager.h"
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-    // Set application attributes
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+   // Set application attributes
+   QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    // Init. application
-    QGuiApplication app(argc, argv);
-    app.setApplicationName(APP_NAME);
-    app.setApplicationVersion(APP_VERSION);
-    app.setOrganizationName(APP_DEVELOPER);
-    app.setOrganizationDomain(APP_SUPPORT_URL);
+   // Init. application
+   QGuiApplication app(argc, argv);
+   app.setApplicationName(APP_NAME);
+   app.setApplicationVersion(APP_VERSION);
+   app.setOrganizationName(APP_DEVELOPER);
+   app.setOrganizationDomain(APP_SUPPORT_URL);
 
-    // Init application modules
-    auto qmlBridge = QmlBridge::getInstance();
-    auto serialManager = SerialManager::getInstance();
+   // Init application modules
+   auto qmlBridge = QmlBridge::getInstance();
+   auto serialManager = SerialManager::getInstance();
 
-    // Init QML interface
-    QQmlApplicationEngine engine;
-    QQuickStyle::setStyle("Fusion");
-    engine.rootContext()->setContextProperty("CppQmlBridge", qmlBridge);
-    engine.rootContext()->setContextProperty("CppSerialManager", serialManager);
-    engine.rootContext()->setContextProperty("CppAppName", app.applicationName());
-    engine.rootContext()->setContextProperty("CppAppVersion", app.applicationVersion());
-    engine.rootContext()->setContextProperty("CppAppOrganization", app.organizationName());
-    engine.rootContext()->setContextProperty("CppAppOrganizationDomain", app.organizationDomain());
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+   // Init QML interface
+   QQmlApplicationEngine engine;
+   QQuickStyle::setStyle("Fusion");
+   engine.rootContext()->setContextProperty("CppQmlBridge", qmlBridge);
+   engine.rootContext()->setContextProperty("CppSerialManager", serialManager);
+   engine.rootContext()->setContextProperty("CppAppName", app.applicationName());
+   engine.rootContext()->setContextProperty("CppAppVersion", app.applicationVersion());
+   engine.rootContext()->setContextProperty("CppAppOrganization", app.organizationName());
+   engine.rootContext()->setContextProperty("CppAppOrganizationDomain", app.organizationDomain());
+   engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
-    // QML error, exit
-    if(engine.rootObjects().isEmpty())
-        return EXIT_FAILURE;
+   // QML error, exit
+   if (engine.rootObjects().isEmpty())
+      return EXIT_FAILURE;
 
-    // Enter application event loop
-    return app.exec();
+   // Enter application event loop
+   return app.exec();
 }
-

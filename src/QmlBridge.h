@@ -26,36 +26,37 @@
 #include <QObject>
 
 class Group;
-class QmlBridge : public QObject {
-    Q_OBJECT
+class QmlBridge : public QObject
+{
+   Q_OBJECT
 
 signals:
-    void updated();
+   void updated();
 
 public:
-    static QmlBridge* getInstance();
+   static QmlBridge *getInstance();
 
-    QString projectTitle() const;
+   QString projectTitle() const;
 
-    int groupCount() const;
-    QList<Group*> groups() const;
-    Group* getGroup(const int index);
+   int groupCount() const;
+   QList<Group *> groups() const;
+   Group *getGroup(const int index);
 
-    Group* gpsGroup() const;
-    bool gpsSupported() const;
-    double gpsAltitude() const;
-    double gpsLatitude() const;
-    double gpsLongitude() const;
+   Group *gpsGroup() const;
+   bool gpsSupported() const;
+   double gpsAltitude() const;
+   double gpsLatitude() const;
+   double gpsLongitude() const;
 
 private:
-    QmlBridge();
+   QmlBridge();
 
 private slots:
-    void update();
+   void update();
 
 private:
-    QString m_title;
-    QList<Group*> m_groups;
+   QString m_title;
+   QList<Group *> m_groups;
 };
 
 #endif

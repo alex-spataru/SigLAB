@@ -26,33 +26,35 @@
 /*
  * Only instance of the class
  */
-static JsonParser* INSTANCE = nullptr;
+static JsonParser *INSTANCE = nullptr;
 
 /**
  * Initializes the JSON Parser class and connects
  * appropiate SIGNALS/SLOTS
  */
-JsonParser::JsonParser() {
-    auto sm = SerialManager::getInstance();
-    connect(sm, SIGNAL(packetReceived(QByteArray)),
-            this, SLOT(readData(QByteArray)));
+JsonParser::JsonParser()
+{
+   auto sm = SerialManager::getInstance();
+   connect(sm, SIGNAL(packetReceived(QByteArray)), this, SLOT(readData(QByteArray)));
 }
 
 /**
  * Returns the only instance of the class
  */
-JsonParser* JsonParser::getInstance() {
-    if (!INSTANCE)
-        INSTANCE = new JsonParser();
+JsonParser *JsonParser::getInstance()
+{
+   if (!INSTANCE)
+      INSTANCE = new JsonParser();
 
-    return INSTANCE;
+   return INSTANCE;
 }
 
 /**
  * Returns the parsed JSON document from the received packet
  */
-QJsonDocument JsonParser::document() {
-    return m_document;
+QJsonDocument JsonParser::document()
+{
+   return m_document;
 }
 
 /**
@@ -60,13 +62,16 @@ QJsonDocument JsonParser::document() {
  * If JSON parsing is successfull, then the class shall notify the rest of the
  * application in order to process packet data.
  */
-void JsonParser::readData(const QByteArray& data) {
-    if (!data.isEmpty()) {
-        QJsonParseError error;
-        auto document = QJsonDocument::fromJson(data, &error);
-        if (error.error == QJsonParseError::NoError) {
-            m_document = document;
-            emit packetReceived();
-        }
-    }
+void JsonParser::readData(const QByteArray &data)
+{
+   if (!data.isEmpty())
+   {
+      QJsonParseError error;
+      auto document = QJsonDocument::fromJson(data, &error);
+      if (error.error == QJsonParseError::NoError)
+      {
+         m_document = document;
+         emit packetReceived();
+      }
+   }
 }

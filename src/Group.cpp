@@ -23,53 +23,63 @@
 #include "Group.h"
 #include "Dataset.h"
 
-Group::Group(QObject* parent) : QObject(parent) {
-    m_title = tr("Invalid");
+Group::Group(QObject *parent)
+   : QObject(parent)
+{
+   m_title = tr("Invalid");
 }
 
-int Group::count() const {
-    return datasets().count();
+int Group::count() const
+{
+   return datasets().count();
 }
 
-QString Group::title() const {
-    return m_title;
+QString Group::title() const
+{
+   return m_title;
 }
 
-QList<Dataset*> Group::datasets() const {
-    return m_datasets;
+QList<Dataset *> Group::datasets() const
+{
+   return m_datasets;
 }
 
-Dataset* Group::getDataset(const int index) {
-    if (index < count())
-        return m_datasets.at(index);
+Dataset *Group::getDataset(const int index)
+{
+   if (index < count())
+      return m_datasets.at(index);
 
-    return Q_NULLPTR;
+   return Q_NULLPTR;
 }
 
-bool Group::read(const QJsonObject& object) {
-    if (!object.isEmpty()) {
-        auto title = object.value("title").toString();
-        auto array = object.value("data").toArray();
+bool Group::read(const QJsonObject &object)
+{
+   if (!object.isEmpty())
+   {
+      auto title = object.value("title").toString();
+      auto array = object.value("data").toArray();
 
-        if (!title.isEmpty() && !array.isEmpty()) {
-            m_title = title;
-            m_datasets.clear();
+      if (!title.isEmpty() && !array.isEmpty())
+      {
+         m_title = title;
+         m_datasets.clear();
 
-            for (auto i = 0; i < array.count(); ++i) {
-                auto object = array.at(i).toObject();
-                if (!object.isEmpty()) {
-                    auto dataset = new Dataset(this);
-                    if (dataset->read(object))
-                        m_datasets.append(dataset);
-                    else
-                        dataset->deleteLater();
-                }
+         for (auto i = 0; i < array.count(); ++i)
+         {
+            auto object = array.at(i).toObject();
+            if (!object.isEmpty())
+            {
+               auto dataset = new Dataset(this);
+               if (dataset->read(object))
+                  m_datasets.append(dataset);
+               else
+                  dataset->deleteLater();
             }
+         }
 
-            return count() > 0;
-        }
-    }
+         return count() > 0;
+      }
+   }
 
-    return false;
+   return false;
 }
-

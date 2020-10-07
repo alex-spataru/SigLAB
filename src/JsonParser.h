@@ -29,24 +29,25 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-class JsonParser : public QObject {
-    Q_OBJECT
+class JsonParser : public QObject
+{
+   Q_OBJECT
 
 signals:
-    void packetReceived();
+   void packetReceived();
 
 public:
-    static JsonParser* getInstance();
-    QJsonDocument document();
+   static JsonParser *getInstance();
+   QJsonDocument document();
 
 private:
-    JsonParser();
+   JsonParser();
 
 private slots:
-    void readData(const QByteArray& data);
+   void readData(const QByteArray &data);
 
 private:
-    QJsonDocument m_document;
+   QJsonDocument m_document;
 };
 
 #endif
