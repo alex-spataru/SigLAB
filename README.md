@@ -8,28 +8,111 @@ The need for this project arose during the development of the Ground Station Sof
 
 ## Communication Protocol
 
-For the moment, the idea is to implement a communication protocol based on JSON, the communication protocol should:
+The communication protocol is implemented through a JSON document. For example, my CanSat team uses the following template:
 
-- Define the name of each data field
-- Define the values for each data field (and measurement units)
-- Define how the data should be displayed (e.g. graph or text)
-- Implement support for vector variables (e.g. for representing accelerometer data)
+```json
+{
+    "title":"KAANSATQRO",
+    "groups":[
+        {
+            "title":"Mission Status",
+            "data":[
+                {
+                    "title":"Mission Time",
+                    "value":"%s"
+                },
+                {
+                    "title":"Packet Count",
+                    "value":"%s"
+                },
+                {
+                    "title":"Software State",
+                    "value":"%s"
+                },
+                {
+                    "title":"Battery Voltage",
+                    "value":"%s",
+                    "graph":true,
+                    "units":"mV"
+                }
+            ]
+        },
+        {
+            "title":"Sensor Readings",
+            "data":[
+                {
+                    "title":"Altitude",
+                    "value":"%s",
+                    "units":"m"
+                },
+                {
+                    "title":"Pressure",
+                    "value":"%s",
+                    "graph":true,
+                    "units":"KPa"
+                },
+                {
+                    "title":"Temperature",
+                    "value":"%s",
+                    "graph":true,
+                    "units":"ºC"
+                },
+                {
+                    "title":"Airspeed",
+                    "value":"%s",
+                    "units":"m/s"
+                },
+                {
+                    "title":"Particle Count",
+                    "value":"%s"
+                },
+                {
+                    "title":"Magnitude North",
+                    "value":"%s"
+                }
+            ]
+        },
+        {
+            "title":"GPS",
+            "data":[
+                {
+                    "title":"UTC Time",
+                    "value":"%s"
+                },
+                {
+                    "title":"Longitude",
+                    "value":"%s"
+                },
+                {
+                    "title":"Latitude",
+                    "value":"%s"
+                },
+                {
+                    "title":"Altitude",
+                    "value":"%s"
+                },
+                {
+                    "title":"Num. Sats",
+                    "value":"%s"
+                }
+            ]
+        }
+    ]
+}
+```
+    
+The `%s` values are replaced with real-time data from each sensor and subsystem. As you can see, the data frame contains the following information:
 
-## Data Export
-
-SigLAB MUST be able to export all the data received in a CSV file for further analysis (e.g. in MatLAB).
-
-## TODOs
-
-- [ ] Define basic JSON parameters for the communication protocol
-- [ ] Implement CSV export functionality
-- [ ] Implement data display functionality
-- [ ] Implement graph display functionality
-- [ ] Add data fields pane
-- [ ] Write a portable library in C for generating SigLAB packets 
-- [x] Implement serial interface bridge
-- [x] Implement main user interface
-- [x] Implement serial console
+- Project title
+- Groups
+  - Group title
+  - Group data
+    - Dataset title
+    - Dataset value
+    - Dataset unit
+    - Dataset graph (or not)
+    
+This information is processed by SigLAB, which builds the user interface according to the information contained in each frame. This information is also used to generate a CSV file with all the readings received from the serial device, the CSV file can be used for analysis and data-processing within MATLAB.
 
 ## Licence
 
