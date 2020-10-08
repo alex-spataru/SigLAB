@@ -23,7 +23,41 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.0
 
-Item {
+import Group 1.0
+import Dataset 1.0
 
+Window {
+    spacing: -1
+    showIcon: false
+    title: group.title
+    borderColor: "#484"
+    backgroundColor: "#000"
+
+    property Group group: null
+
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: app.spacing
+        anchors.topMargin: 0
+        anchors.bottomMargin: 0
+        anchors.margins: app.spacing * 2
+
+        Item {
+            Layout.fillHeight: true
+        }
+
+        Repeater {
+            model: group.datasetCount
+            delegate: DataDelegate {
+                Layout.fillWidth: true
+                dataset: group.getDataset(index)
+            }
+        }
+
+        Item {
+            Layout.fillHeight: true
+        }
+    }
 }

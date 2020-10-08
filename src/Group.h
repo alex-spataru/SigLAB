@@ -33,13 +33,17 @@ class Group : public QObject
 {
    Q_OBJECT
 
+   Q_PROPERTY(QString title READ title CONSTANT)
+   Q_PROPERTY(int datasetCount READ count CONSTANT)
+   Q_PROPERTY(QList<Dataset *> datasets READ datasets CONSTANT)
+
 public:
    Group(QObject *parent = nullptr);
 
    int count() const;
    QString title() const;
    QList<Dataset *> datasets() const;
-   Dataset *getDataset(const int index);
+   Q_INVOKABLE Dataset *getDataset(const int index);
 
    bool read(const QJsonObject &object);
 

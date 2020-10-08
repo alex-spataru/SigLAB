@@ -30,6 +30,11 @@ class Dataset : public QObject
 {
    Q_OBJECT
 
+   Q_PROPERTY(bool graph READ graph CONSTANT)
+   Q_PROPERTY(QString title READ title CONSTANT)
+   Q_PROPERTY(QString value READ value CONSTANT)
+   Q_PROPERTY(QString units READ units CONSTANT)
+
 public:
    Dataset(QObject *parent = nullptr);
 

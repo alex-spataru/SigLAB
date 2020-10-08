@@ -23,6 +23,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.0
 
 import "Widgets" as Widgets
 import "Components" as Components
@@ -67,6 +68,9 @@ Page {
                 TabBar {
                     id: tabBar
                     contentHeight: 32
+                    enabled: CppQmlBridge.groupCount > 0
+                    opacity: CppQmlBridge.groupCount > 0 ? 1 : 0
+                    Behavior on opacity {NumberAnimation{}}
 
                     anchors {
                         leftMargin: 3
@@ -89,6 +93,9 @@ Page {
                     anchors.fill: parent
                     anchors.topMargin: tabBar.height
                     currentIndex: tabBar.currentIndex
+                    enabled: CppQmlBridge.groupCount > 0
+                    opacity: CppQmlBridge.groupCount > 0 ? 1 : 0
+                    Behavior on opacity {NumberAnimation{}}
 
                     Components.DataGrid {
                         id: dataGrid
@@ -100,6 +107,43 @@ Page {
                         id: graphGrid
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                    }
+                }
+
+                ColumnLayout {
+                    anchors.centerIn: parent
+                    enabled: CppQmlBridge.groupCount == 0
+                    opacity: CppQmlBridge.groupCount == 0 ? 1 : 0
+
+                    Behavior on opacity {NumberAnimation{}}
+
+                    Image {
+                        width: sourceSize.width
+                        height: sourceSize.height
+                        sourceSize: Qt.size(128, 128)
+                        source: "qrc:/icons/warning.svg"
+                        Layout.alignment: Qt.AlignHCenter
+
+                        ColorOverlay {
+                            source: parent
+                            color: "#ffaa44"
+                            anchors.fill: parent
+                        }
+                    }
+
+                    Label {
+                        font.pixelSize: 18
+                        text: qsTr("No data available")
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    Label {
+                        opacity: 0.5
+                        font.pixelSize: 14
+                        Layout.alignment: Qt.AlignHCenter
+                        text: CppSerialManager.connected ?
+                                  qsTr("Check the serial console to troubleshoot the problem") :
+                                  qsTr("No device connected, please select a COM port in the device manager pane")
                     }
                 }
             }

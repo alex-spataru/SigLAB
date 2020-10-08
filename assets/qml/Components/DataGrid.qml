@@ -23,10 +23,133 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.0
+
+import Group 1.0
+import Dataset 1.0
+
+import "../Widgets"
 
 Item {
-    Label {
-        text: qsTr("Data Grid")
-        anchors.centerIn: parent
+    id: dataGrid
+
+    property string title: ""
+
+    Connections {
+        target: CppQmlBridge
+        function onUpdated() {
+            groupGenerator.model = 0
+
+            if (CppQmlBridge.groupCount > 0) {
+                dataGrid.title = CppQmlBridge.projectTitle
+                groupGenerator.model = CppQmlBridge.groupCount
+
+                statusImage.source = "qrc:/icons/update.svg"
+                statusTimer.start()
+            }
+
+            else {
+                dataGrid.title = ""
+            }
+        }
+    }
+
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: app.spacing * 2
+        anchors.margins: app.spacing * 2
+
+        Rectangle {
+            radius: 5
+            height: 32
+            color: "#484"
+            Layout.fillWidth: true
+
+            RowLayout {
+                spacing: app.spacing
+
+                anchors {
+                    left: parent.left
+                    leftMargin: app.spacing
+                    verticalCenter: parent.verticalCenter
+                }
+
+                Image {
+                    id: statusImage
+                    width: sourceSize.width
+                    height: sourceSize.height
+                    sourceSize: Qt.size(24, 24)
+                    Layout.alignment: Qt.AlignVCenter
+
+                    Timer {
+                        interval: 250
+                        id: statusTimer
+                        onTriggered: statusImage.source = "qrc:/icons/schedule.svg"
+                    }
+
+                    ColorOverlay {
+                        source: parent
+                        anchors.fill: parent
+                        color: palette.text
+                    }
+                }
+
+                Label {
+                    font.bold: true
+                    font.pixelSize: 16
+                    text: dataGrid.title
+                    font.family: app.monoFont
+                }
+            }
+
+            Label {
+                font.family: app.monoFont
+                text: CppSerialManager.receivedBytes
+
+                anchors {
+                    right: parent.right
+                    rightMargin: app.spacing
+                    verticalCenter: parent.verticalCenter
+                }
+            }
+        }
+
+        GridLayout {
+            columns: 2
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            rowSpacing: app.spacing
+            columnSpacing: app.spacing
+
+            Repeater {
+                id: groupGenerator
+
+                delegate: GroupDelegate {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    group: CppQmlBridge.getGroup(index)
+                }
+            }
+
+            Window {
+                spacing: -1
+                showIcon: false
+                title: qsTr("Map")
+                borderColor: "#484"
+                backgroundColor: "#000"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                visible: CppQmlBridge.gpsSupported
+
+                Item {
+                    anchors.fill: parent
+                    anchors.margins: app.spacing
+
+                    MapDelegate {
+                        anchors.fill: parent
+                    }
+                }
+            }
+        }
     }
 }

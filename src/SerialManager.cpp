@@ -35,6 +35,7 @@ SerialManager::SerialManager()
 {
    // Ensure that pointers are NULL
    m_port = nullptr;
+   m_receivedBytes = 0;
    m_textCursor = nullptr;
    m_textDocument = nullptr;
 
@@ -141,6 +142,34 @@ QString SerialManager::portName() const
 int SerialManager::maxBufferSize() const
 {
    return m_maxBufferSize;
+}
+
+QString SerialManager::receivedBytes() const
+{
+   QString value;
+   QString units;
+
+   if (m_receivedBytes < 1024)
+   {
+      value = QString::number(m_receivedBytes);
+      units = "bytes";
+   }
+
+   else if (m_receivedBytes >= 1024 && m_receivedBytes < 1024 * 1024)
+   {
+      double kb = (double)m_receivedBytes / 1024.0;
+      value = QString::number(kb, 'f', 2);
+      units = "KB";
+   }
+
+   else
+   {
+      double mb = (double)m_receivedBytes / (1024 * 1024.0);
+      value = QString::number(mb, 'f', 2);
+      units = "MB";
+   }
+
+   return tr("Received: %1 %2").arg(value).arg(units);
 }
 
 /**
@@ -753,8 +782,14 @@ void SerialManager::onDataReceived()
       auto data = port()->readAll();
       auto bytes = data.length();
 
+      // Update received bytes indicator
+      m_receivedBytes += bytes;
+      if (m_receivedBytes >= UINT64_MAX)
+         m_receivedBytes = 0;
+
       // Notify user interface
       emit rx(data, bytes);
+      emit receivedBytesChanged();
 
       // Update text document
       if (m_textCursor)
@@ -814,6 +849,10 @@ void SerialManager::disconnectDevice()
 
       // Reset pointer
       m_port = nullptr;
+
+      // Reset received bytes
+      m_receivedBytes = 0;
+      emit receivedBytesChanged();
 
       // Warn user
       if (!name.isEmpty())

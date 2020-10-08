@@ -30,6 +30,14 @@ class QmlBridge : public QObject
 {
    Q_OBJECT
 
+   Q_PROPERTY(QString projectTitle READ projectTitle NOTIFY updated)
+   Q_PROPERTY(int groupCount READ groupCount NOTIFY updated)
+   Q_PROPERTY(QList<Group *> groups READ groups NOTIFY updated)
+   Q_PROPERTY(bool gpsSupported READ gpsSupported NOTIFY updated)
+   Q_PROPERTY(double gpsAltitude READ gpsAltitude NOTIFY updated)
+   Q_PROPERTY(double gpsLatitude READ gpsLatitude NOTIFY updated)
+   Q_PROPERTY(double gpsLongitude READ gpsLongitude NOTIFY updated)
+
 signals:
    void updated();
 
@@ -40,7 +48,7 @@ public:
 
    int groupCount() const;
    QList<Group *> groups() const;
-   Group *getGroup(const int index);
+   Q_INVOKABLE Group *getGroup(const int index);
 
    Group *gpsGroup() const;
    bool gpsSupported() const;

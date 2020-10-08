@@ -40,6 +40,7 @@ class SerialManager : public QObject
    Q_PROPERTY(bool readOnly READ readOnly NOTIFY connectedChanged)
    Q_PROPERTY(bool readWrite READ readWrite NOTIFY connectedChanged)
    Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+   Q_PROPERTY(QString receivedBytes READ receivedBytes NOTIFY receivedBytesChanged)
    Q_PROPERTY(int maxBufferSize READ maxBufferSize WRITE setMaxBufferSize NOTIFY maxBufferSizeChanged)
    Q_PROPERTY(QString startSequence READ startSequence WRITE setStartSequence NOTIFY startSequenceChanged)
    Q_PROPERTY(QString finishSequence READ finishSequence WRITE setFinishSequence NOTIFY finishSequenceChanged)
@@ -51,7 +52,7 @@ class SerialManager : public QObject
    Q_PROPERTY(quint8 flowControlIndex READ flowControlIndex WRITE setFlowControl NOTIFY flowControlChanged)
    Q_PROPERTY(QStringList portList READ portList NOTIFY availablePortsChanged)
    Q_PROPERTY(QStringList parityList READ parityList CONSTANT)
-   Q_PROPERTY(QStringList baudRateLis READ baudRateList CONSTANT)
+   Q_PROPERTY(QStringList baudRateList READ baudRateList CONSTANT)
    Q_PROPERTY(QStringList dataBitsList READ dataBitsList CONSTANT)
    Q_PROPERTY(QStringList stopBitsList READ stopBitsList CONSTANT)
    Q_PROPERTY(QStringList flowControlList READ flowControlList CONSTANT)
@@ -67,6 +68,7 @@ signals:
    void textDocumentChanged();
    void maxBufferSizeChanged();
    void startSequenceChanged();
+   void receivedBytesChanged();
    void finishSequenceChanged();
    void availablePortsChanged();
    void connectionError(const QString &name);
@@ -84,6 +86,7 @@ public:
    bool connected() const;
    QString portName() const;
    int maxBufferSize() const;
+   QString receivedBytes() const;
    QString startSequence() const;
    QString finishSequence() const;
 
@@ -149,6 +152,7 @@ private:
    quint8 m_baudRateIndex;
    quint8 m_dataBitsIndex;
    quint8 m_stopBitsIndex;
+   quint64 m_receivedBytes;
    quint8 m_flowControlIndex;
 
    int m_maxBufferSize;

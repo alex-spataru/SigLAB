@@ -23,7 +23,74 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.0
+
+import Dataset 1.0
 
 Item {
+    height: 14
+    property Dataset dataset: null
 
+    Label {
+        text: dataset.title
+        elide: Label.ElideRight
+        color: app.consoleColor
+        font.family: app.monoFont
+        horizontalAlignment: Text.AlignRight
+
+        anchors {
+            left: parent.left
+            right: center.left
+            margins: app.spacing
+            verticalCenter: parent.verticalCenter
+        }
+    }
+
+    Image {
+        id: center
+        width: sourceSize.width
+        height: sourceSize.height
+        sourceSize: Qt.size(14, 14)
+        source: "qrc:/icons/ethernet.svg"
+
+        anchors {
+            centerIn: parent
+        }
+
+        ColorOverlay {
+            source: parent
+            anchors.fill: parent
+            color: app.consoleColor
+        }
+    }
+
+    Label {
+        text: dataset.value
+        elide: Label.ElideRight
+        color: app.consoleColor
+        font.family: app.monoFont
+        horizontalAlignment: Text.AlignLeft
+
+        anchors {
+            left: center.right
+            right: units.left
+            margins: app.spacing
+            verticalCenter: parent.verticalCenter
+        }
+    }
+
+    Label {
+        id: units
+        color: app.consoleColor
+        font.family: app.monoFont
+        text: "[" + dataset.units + "]"
+        visible: dataset.units.length > 0
+        horizontalAlignment: Text.AlignRight
+
+        anchors {
+            right: parent.right
+            margins: app.spacing
+            verticalCenter: parent.verticalCenter
+        }
+    }
 }

@@ -25,6 +25,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "Group.h"
+#include "Dataset.h"
+
 #include "AppInfo.h"
 #include "QmlBridge.h"
 #include "SerialManager.h"
@@ -44,6 +47,10 @@ int main(int argc, char **argv)
    // Init application modules
    auto qmlBridge = QmlBridge::getInstance();
    auto serialManager = SerialManager::getInstance();
+
+   // Register QML types
+   qmlRegisterType<Group>("Group", 1, 0, "Group");
+   qmlRegisterType<Dataset>("Dataset", 1, 0, "Dataset");
 
    // Init QML interface
    QQmlApplicationEngine engine;

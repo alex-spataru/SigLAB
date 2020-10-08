@@ -32,6 +32,8 @@ Page {
     //
     property alias icon: _bt.icon
     property color borderColor: "#666"
+    property alias showIcon: _bt.visible
+    property color titleColor: palette.text
     property color backgroundColor: "#212121"
 
     //
@@ -89,7 +91,7 @@ Page {
                 icon.height: 24
                 Layout.minimumWidth: 32
                 Layout.maximumWidth: 32
-                icon.color: palette.text
+                icon.color: window.titleColor
                 Layout.alignment: Qt.AlignVCenter
                 Layout.maximumHeight: parent.height
                 Layout.minimumHeight: parent.height
@@ -99,11 +101,10 @@ Page {
             Label {
                 font.bold: true
                 text: window.title
-                Layout.alignment: Qt.AlignVCenter
-            }
-
-            Item {
                 Layout.fillWidth: true
+                color: window.titleColor
+                Layout.alignment: Qt.AlignVCenter
+                horizontalAlignment: window.showIcon ? Label.AlignLeft : Label.AlignHCenter
             }
         }
     }
