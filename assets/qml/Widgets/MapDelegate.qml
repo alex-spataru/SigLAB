@@ -30,6 +30,7 @@ import QtQuick.Controls.Universal 2.0
 import Qt.labs.settings 1.0
 
 ColumnLayout {
+    id: gps
     spacing: app.spacing
     Component.onCompleted: centerMap()
 
@@ -70,6 +71,9 @@ ColumnLayout {
                 map.center = gpsCoordinates
                 oldCoordinates = gpsCoordinates
             }
+
+            gps.latitude = CppQmlBridge.gpsLatitude
+            gps.longitude = CppQmlBridge.gpsLongitude
         }
     } Connections {
         target: CppSerialManager

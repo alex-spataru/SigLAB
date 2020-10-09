@@ -87,6 +87,12 @@ Page {
                     TabButton {
                         text: qsTr("Graphs")
                     }
+
+                    TabButton {
+                        text: qsTr("GPS Map")
+                        enabled: CppQmlBridge.gpsSupported
+                        visible: CppQmlBridge.gpsSupported
+                    }
                 }
 
                 StackLayout {
@@ -107,6 +113,17 @@ Page {
                         id: graphGrid
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        Widgets.MapDelegate {
+                            id: gpsMap
+                            anchors.fill: parent
+                            anchors.margins: app.spacing * 2
+                        }
                     }
                 }
 
@@ -152,14 +169,14 @@ Page {
             // Console
             //
             Components.Console {
-               id: console
-               Layout.fillWidth: true
-               Layout.fillHeight: true
-               opacity: enabled ? 1 : 0
-               enabled: toolbar.consoleChecked
-               Layout.maximumHeight: !dataDis.enabled ? page.height : implicitHeight
+                id: console
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                opacity: enabled ? 1 : 0
+                enabled: toolbar.consoleChecked
+                Layout.maximumHeight: !dataDis.enabled ? page.height : implicitHeight
 
-               Behavior on Layout.maximumHeight {NumberAnimation{}}
+                Behavior on Layout.maximumHeight {NumberAnimation{}}
             }
         }
 

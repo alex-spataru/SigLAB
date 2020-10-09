@@ -130,26 +130,6 @@ Item {
                     group: CppQmlBridge.getGroup(index)
                 }
             }
-
-            Window {
-                spacing: -1
-                showIcon: false
-                title: qsTr("Map")
-                borderColor: "#484"
-                backgroundColor: "#000"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                visible: CppQmlBridge.gpsSupported
-
-                Item {
-                    anchors.fill: parent
-                    anchors.margins: app.spacing
-
-                    MapDelegate {
-                        anchors.fill: parent
-                    }
-                }
-            }
         }
     }
 }

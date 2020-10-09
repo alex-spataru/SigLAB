@@ -51,10 +51,10 @@ bool Dataset::read(const QJsonObject &object)
 {
    if (!object.isEmpty())
    {
-      auto graph = object.value("graph").toBool();
-      auto title = object.value("title").toString();
-      auto value = object.value("value").toString();
-      auto units = object.value("units").toString();
+      auto graph = object.value("g").toBool();
+      auto title = object.value("t").toString();
+      auto value = object.value("v").toString();
+      auto units = object.value("u").toString();
 
       if (!title.isEmpty() && !value.isEmpty())
       {

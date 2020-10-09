@@ -56,8 +56,8 @@ bool Group::read(const QJsonObject &object)
 {
    if (!object.isEmpty())
    {
-      auto title = object.value("title").toString();
-      auto array = object.value("data").toArray();
+      auto title = object.value("t").toString();
+      auto array = object.value("d").toArray();
 
       if (!title.isEmpty() && !array.isEmpty())
       {

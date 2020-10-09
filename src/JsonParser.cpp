@@ -68,6 +68,7 @@ void JsonParser::readData(const QByteArray &data)
    {
       QJsonParseError error;
       auto document = QJsonDocument::fromJson(data, &error);
+
       if (error.error == QJsonParseError::NoError)
       {
          m_document = document;

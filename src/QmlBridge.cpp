@@ -131,11 +131,12 @@ double QmlBridge::gpsLongitude() const
 void QmlBridge::update()
 {
    auto document = JsonParser::getInstance()->document();
+
    if (!document.isEmpty())
    {
       auto object = document.object();
-      auto title = object.value("title").toString();
-      auto groups = object.value("groups").toArray();
+      auto title = object.value("t").toString();
+      auto groups = object.value("g").toArray();
 
       if (!title.isEmpty() && !groups.isEmpty())
       {
