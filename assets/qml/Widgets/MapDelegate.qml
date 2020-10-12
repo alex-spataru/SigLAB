@@ -121,7 +121,8 @@ ColumnLayout {
 
         Button {
             text: qsTr("Re-center")
-            icon.source: "qrc:/icons/location.svg"
+            icon.color: palette.buttonText
+            icon.source: "qrc:/icons/location-on.svg"
             onClicked: centerMap()
         }
     }

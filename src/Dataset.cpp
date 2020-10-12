@@ -27,34 +27,51 @@ Dataset::Dataset(QObject *parent)
 {
 }
 
+/**
+ * @return @c true if the UI should graph this dataset
+ */
 bool Dataset::graph() const
 {
    return m_graph;
 }
 
+/**
+ * @return The title/description of this dataset
+ */
 QString Dataset::title() const
 {
    return m_title;
 }
 
+/**
+ * @return The value/reading of this dataset
+ */
 QString Dataset::value() const
 {
    return m_value;
 }
 
+/**
+ * @return The units of this datasheet
+ */
 QString Dataset::units() const
 {
    return m_units;
 }
 
+/**
+ * Reads dataset information from the given @a object.
+ *
+ * @return @c true on read success, @c false on failure
+ */
 bool Dataset::read(const QJsonObject &object)
 {
    if (!object.isEmpty())
    {
-      auto graph = object.value("g").toBool();
-      auto title = object.value("t").toString();
-      auto value = object.value("v").toString();
-      auto units = object.value("u").toString();
+      auto graph = object.value("g").toVariant().toBool();
+      auto title = object.value("t").toVariant().toString();
+      auto value = object.value("v").toVariant().toString();
+      auto units = object.value("u").toVariant().toString();
 
       if (!title.isEmpty() && !value.isEmpty())
       {

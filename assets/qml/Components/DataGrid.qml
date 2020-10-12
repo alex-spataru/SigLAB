@@ -34,18 +34,25 @@ Item {
     id: dataGrid
 
     property string title: ""
+    property bool groupCountChanged: false
 
     Connections {
         target: CppQmlBridge
         function onUpdated() {
-            groupGenerator.model = 0
+            var previousCount = groupGenerator.count
+            var currentCount = CppQmlBridge.groupCount
 
-            if (CppQmlBridge.groupCount > 0) {
+            if (previousCount != currentCount)
+                dataGrid.groupCountChanged = true
+            else
+                dataGrid.groupCountChanged = false
+
+            groupGenerator.model = 0
+            logoWindow.visible = (currentCount % 2) !== 0
+
+            if (currentCount > 0) {
                 dataGrid.title = CppQmlBridge.projectTitle
                 groupGenerator.model = CppQmlBridge.groupCount
-
-                statusImage.source = "qrc:/icons/update.svg"
-                statusTimer.start()
             }
 
             else {
@@ -75,17 +82,11 @@ Item {
                 }
 
                 Image {
-                    id: statusImage
                     width: sourceSize.width
                     height: sourceSize.height
                     sourceSize: Qt.size(24, 24)
+                    source: "qrc:/icons/arrow-right.svg"
                     Layout.alignment: Qt.AlignVCenter
-
-                    Timer {
-                        interval: 250
-                        id: statusTimer
-                        onTriggered: statusImage.source = "qrc:/icons/schedule.svg"
-                    }
 
                     ColorOverlay {
                         source: parent
@@ -124,10 +125,45 @@ Item {
             Repeater {
                 id: groupGenerator
 
-                delegate: GroupDelegate {
+                delegate: Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    group: CppQmlBridge.getGroup(index)
+                    
+                    GroupDelegate {
+                        anchors.fill: parent
+                        group: CppQmlBridge.getGroup(index)
+                    }
+                }
+            }
+
+            Item {
+                id: logoWindow
+                visible: false
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                
+                Window {
+                    id: _window
+
+                    spacing: 0
+                    showIcon: false
+                    title: qsTr("About")
+                    borderColor: "#484"
+                    anchors.fill: parent
+                    backgroundColor: "#000"
+
+                    Image {
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: "qrc:/images/siglab.svg"
+                        anchors.margins: (Math.min(dataGrid.width, dataGrid.height) / 20)
+
+                        ColorOverlay {
+                            source: parent
+                            anchors.fill: parent
+                            color: app.consoleColor
+                        }
+                    }
                 }
             }
         }

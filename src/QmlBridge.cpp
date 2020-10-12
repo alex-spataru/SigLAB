@@ -47,16 +47,26 @@ QmlBridge *QmlBridge::getInstance()
    return INSTANCE;
 }
 
+/**
+ * @return The title of the project/frame sent by the serial device
+ */
 QString QmlBridge::projectTitle() const
 {
    return m_title;
 }
 
+/**
+ * @return The number of groups contained in the last frame.
+ */
 int QmlBridge::groupCount() const
 {
    return groups().count();
 }
 
+/**
+ * @return A list with all the @c Group objects generated
+ *         after reading the last received frame.
+ */
 QList<Group *> QmlBridge::groups() const
 {
    return m_groups;
@@ -64,7 +74,7 @@ QList<Group *> QmlBridge::groups() const
 
 Group *QmlBridge::getGroup(const int index)
 {
-   if (index < groupCount())
+   if (index < groupCount() && index >= 0)
       return groups().at(index);
 
    return Q_NULLPTR;

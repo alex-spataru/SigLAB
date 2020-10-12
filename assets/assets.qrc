@@ -15,6 +15,7 @@
         <file>icons/ethernet.svg</file>
         <file>icons/fullscreen-exit.svg</file>
         <file>icons/fullscreen.svg</file>
+        <file>icons/group.svg</file>
         <file>icons/help.svg</file>
         <file>icons/info.svg</file>
         <file>icons/link.svg</file>
@@ -27,29 +28,27 @@
         <file>icons/right.svg</file>
         <file>icons/save.svg</file>
         <file>icons/scatter-plot.svg</file>
+        <file>icons/schedule.svg</file>
         <file>icons/send.svg</file>
         <file>icons/settings.svg</file>
         <file>icons/tab.svg</file>
         <file>icons/terminal.svg</file>
+        <file>icons/update.svg</file>
         <file>icons/usb.svg</file>
         <file>icons/warning.svg</file>
+        <file>images/siglab.svg</file>
         <file>qml/Components/Console.qml</file>
         <file>qml/Components/DataGrid.qml</file>
         <file>qml/Components/DeviceManager.qml</file>
         <file>qml/Components/GraphGrid.qml</file>
         <file>qml/Components/ToolBar.qml</file>
-        <file>qml/Dialogs/About.qml</file>
-        <file>qml/Dialogs/Preferences.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/UI.qml</file>
         <file>qml/Widgets/DataDelegate.qml</file>
         <file>qml/Widgets/GraphDelegate.qml</file>
         <file>qml/Widgets/GroupDelegate.qml</file>
         <file>qml/Widgets/LED.qml</file>
         <file>qml/Widgets/MapDelegate.qml</file>
         <file>qml/Widgets/Window.qml</file>
-        <file>qml/main.qml</file>
-        <file>qml/UI.qml</file>
-        <file>icons/group.svg</file>
-        <file>icons/schedule.svg</file>
-        <file>icons/update.svg</file>
     </qresource>
 </RCC>

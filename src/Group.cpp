@@ -29,34 +29,53 @@ Group::Group(QObject *parent)
    m_title = tr("Invalid");
 }
 
+/**
+ * @return The number of datasets inside this group
+ */
 int Group::count() const
 {
    return datasets().count();
 }
 
+/**
+ * @return The title/description of this group
+ */
 QString Group::title() const
 {
    return m_title;
 }
 
+/**
+ * @return A list with all the dataset objects contained in this group
+ */
 QList<Dataset *> Group::datasets() const
 {
    return m_datasets;
 }
 
+/**
+ * @return The dataset object at the given @a index,
+ *         returns @c Q_NULLPTR on invalid index
+ */
 Dataset *Group::getDataset(const int index)
 {
-   if (index < count())
+   if (index < count() && index >= 0)
       return m_datasets.at(index);
 
    return Q_NULLPTR;
 }
 
+/**
+ * Reads the group information and all its asociated datasets
+ * from the given JSON @c object.
+ *
+ * @return @c true on success, @c false on failure
+ */
 bool Group::read(const QJsonObject &object)
 {
    if (!object.isEmpty())
    {
-      auto title = object.value("t").toString();
+      auto title = object.value("t").toVariant().toString();
       auto array = object.value("d").toArray();
 
       if (!title.isEmpty() && !array.isEmpty())

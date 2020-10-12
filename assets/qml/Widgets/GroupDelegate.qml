@@ -37,27 +37,30 @@ Window {
 
     property Group group: null
 
-    ColumnLayout {
+    ScrollView {
+        id: _sv
+        clip: true
+        contentWidth: -1
         anchors.fill: parent
-        spacing: app.spacing
-        anchors.topMargin: 0
-        anchors.bottomMargin: 0
         anchors.margins: app.spacing * 2
 
-        Item {
-            Layout.fillHeight: true
-        }
+        ScrollBar.vertical.z: 5
+        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+        ScrollBar.vertical.visible: ScrollBar.vertical.size < 1
 
-        Repeater {
-            model: group.datasetCount
-            delegate: DataDelegate {
-                Layout.fillWidth: true
-                dataset: group.getDataset(index)
+        ColumnLayout {
+            x: 0
+            spacing: app.spacing
+            width: _sv.width - (_sv.ScrollBar.vertical.visible ? 10 : 0)
+
+            Repeater {
+                model: group.datasetCount
+                delegate: DataDelegate {
+                    Layout.fillWidth: true
+                    dataset: group.getDataset(index)
+                }
             }
-        }
-
-        Item {
-            Layout.fillHeight: true
         }
     }
 }

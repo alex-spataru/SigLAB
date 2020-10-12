@@ -24,6 +24,8 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
+import Qt.labs.settings 1.0
+
 import "../Widgets" as Widgets
 
 Widgets.Window {
@@ -33,6 +35,18 @@ Widgets.Window {
     implicitWidth: 256
     title: qsTr("Device Manager")
     icon.source: "qrc:/icons/usb.svg"
+
+    //
+    // Save settings
+    //
+    Settings {
+        category: "Device Manager"
+        property alias dmParity: parity.currentIndex
+        property alias dmStopBits: stopBits.currentIndex
+        property alias dmBaudRate: baudRate.currentIndex
+        property alias dmDataBits: dataBits.currentIndex
+        property alias dmFlowControl: flowControl.currentIndex
+    }
 
     //
     // Control arrangement
@@ -63,6 +77,7 @@ Widgets.Window {
         Label {
             text: qsTr("Baud Rate") + ":"
         } ComboBox {
+            id: baudRate
             Layout.fillWidth: true
             model: CppSerialManager.baudRateList
             currentIndex: CppSerialManager.baudRateIndex
@@ -85,6 +100,7 @@ Widgets.Window {
         Label {
             text: qsTr("Data Bits") + ":"
         } ComboBox {
+            id: dataBits
             Layout.fillWidth: true
             model: CppSerialManager.dataBitsList
             currentIndex: CppSerialManager.dataBitsIndex
@@ -100,6 +116,7 @@ Widgets.Window {
         Label {
             text: qsTr("Parity") + ":"
         } ComboBox {
+            id: parity
             Layout.fillWidth: true
             model: CppSerialManager.parityList
             currentIndex: CppSerialManager.parityIndex
@@ -115,6 +132,7 @@ Widgets.Window {
         Label {
             text: qsTr("Stop Bits") + ":"
         } ComboBox {
+            id: stopBits
             Layout.fillWidth: true
             model: CppSerialManager.stopBitsList
             currentIndex: CppSerialManager.stopBitsIndex
@@ -130,6 +148,7 @@ Widgets.Window {
         Label {
             text: qsTr("Flow Control") + ":"
         } ComboBox {
+            id: flowControl
             Layout.fillWidth: true
             model: CppSerialManager.flowControlList
             currentIndex: CppSerialManager.flowControlIndex

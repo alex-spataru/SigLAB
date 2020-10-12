@@ -36,7 +36,7 @@ Item {
         elide: Label.ElideRight
         color: app.consoleColor
         font.family: app.monoFont
-        horizontalAlignment: Text.AlignRight
+        horizontalAlignment: Text.AlignLeft
 
         anchors {
             left: parent.left
