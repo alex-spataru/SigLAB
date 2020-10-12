@@ -202,9 +202,9 @@ Widgets.Window {
                 Layout.alignment: Qt.AlignVCenter
 
                 ColorOverlay {
-                    color: "#fff"
                     source: parent
                     anchors.fill: parent
+                    color: Qt.darker(app.consoleColor)
                 }
             }
 

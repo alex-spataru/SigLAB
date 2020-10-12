@@ -36,7 +36,7 @@ ApplicationWindow {
     // Global properties
     //
     readonly property int spacing: 8
-    readonly property color consoleColor: "#52d788"
+    readonly property color consoleColor: Qt.rgba(142/255, 205/255, 157/255, 1)
     readonly property string monoFont: {
         switch (Qt.platform.os) {
         case "osx":
@@ -68,19 +68,18 @@ ApplicationWindow {
     //
     // Set fusion palette
     //
-    palette.base: "#191919"
-    palette.text: "#ffffff"
-    palette.link: "#2a82da"
-    palette.button: "#353535"
-    palette.window: "#252525"
-    palette.highlight: "#666666"
-    palette.buttonText: "#ffffff"
-    palette.brightText: "#ff0000"
-    palette.windowText: "#ffffff"
-    palette.toolTipBase: "#ffffff"
-    palette.toolTipText: "#ffffff"
-    palette.alternateBase: "#353535"
-    palette.highlightedText: "#ffffff"
+    palette.base: Qt.rgba(33/255, 55/255, 63/255, 1)
+    palette.text: Qt.rgba(230/255, 224/255, 178/255, 1)
+    palette.link: Qt.rgba(64/255, 157/255, 160/255, 1)
+    palette.button: Qt.rgba(33/255, 55/255, 63/255, 1)
+    palette.window: Qt.rgba(33/255, 55/255, 63/255, 1)
+    palette.highlight: Qt.rgba(64/255, 157/255, 160/255, 1)
+    palette.buttonText: Qt.rgba(230/255, 224/255, 178/255, 1)
+    palette.windowText: Qt.rgba(230/255, 224/255, 178/255, 1)
+    palette.toolTipBase: Qt.rgba(230/255, 224/255, 178/255, 1)
+    palette.toolTipText: Qt.rgba(230/255, 224/255, 178/255, 1)
+    palette.brightText: Qt.rgba(255/255, 255/255, 255/255, 1)
+    palette.highlightedText: Qt.rgba(230/255, 224/255, 178/255, 1)
 
     //
     // User interface loader

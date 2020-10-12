@@ -32,10 +32,10 @@ Page {
     //
     property int borderWidth: 3
     property alias icon: _bt.icon
-    property color borderColor: "#666"
     property alias showIcon: _bt.visible
-    property color titleColor: palette.text
-    property color backgroundColor: "#212121"
+    property color titleColor: palette.brightText
+    property color borderColor: palette.highlight
+    property color backgroundColor: Qt.darker(palette.base)
 
     //
     // Animations

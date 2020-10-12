@@ -34,9 +34,9 @@ Item {
     Label {
         text: dataset.title
         elide: Label.ElideRight
-        color: app.consoleColor
         font.family: app.monoFont
         horizontalAlignment: Text.AlignLeft
+        color: Qt.rgba(215/255, 45/255, 96/255, 1)
 
         anchors {
             left: parent.left
@@ -50,7 +50,7 @@ Item {
         id: center
         width: sourceSize.width
         height: sourceSize.height
-        sourceSize: Qt.size(14, 14)
+        sourceSize: Qt.size(18, 18)
         source: "qrc:/icons/ethernet.svg"
 
         anchors {
@@ -60,16 +60,16 @@ Item {
         ColorOverlay {
             source: parent
             anchors.fill: parent
-            color: app.consoleColor
+            color: Qt.rgba(81/255, 116/255, 151/255, 1)
         }
     }
 
     Label {
         text: dataset.value
         elide: Label.ElideRight
-        color: app.consoleColor
         font.family: app.monoFont
         horizontalAlignment: Text.AlignLeft
+        color: Qt.rgba(215/255, 45/255, 96/255, 1)
 
         anchors {
             left: center.right
@@ -81,11 +81,11 @@ Item {
 
     Label {
         id: units
-        color: app.consoleColor
         font.family: app.monoFont
         text: "[" + dataset.units + "]"
         visible: dataset.units.length > 0
         horizontalAlignment: Text.AlignRight
+        color: Qt.rgba(81/255, 116/255, 151/255, 1)
 
         anchors {
             right: parent.right

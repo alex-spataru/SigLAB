@@ -58,18 +58,14 @@ ToolBar {
     //
     Rectangle {
         border.width: 1
-        border.color: palette.alternateBase
+        color: Qt.rgba(33/255, 55/255, 63/255, 1)
+        border.color: Qt.darker(color)
 
         anchors {
             fill: parent
             topMargin: -border.width
             leftMargin: -border.width * 10
             rightMargin: -border.width * 10
-        }
-
-        gradient: Gradient {
-            GradientStop { position: 1; color: "#222" }
-            GradientStop { position: 0; color: "#444" }
         }
     }
 

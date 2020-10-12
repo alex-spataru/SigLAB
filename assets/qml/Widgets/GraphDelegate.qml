@@ -21,21 +21,54 @@
  */
 
 import QtQuick 2.12
-import QtCharts 2.0
+import QtCharts 2.3
 
 import Dataset 1.0
 
 Window {
     property int graphId: -1
-    property real minimumValue: 0
-    property real maximumValue: 1
+    property real maximumValue: -1000
 
     spacing: -1
     showIcon: false
-    borderColor: Qt.darker(app.consoleColor)
-    backgroundColor: Qt.darker(app.consoleColor)
     title: CppGraphProvider.getDataset(graphId).title +
            " (" + CppGraphProvider.getDataset(graphId).units + ")"
+
+    Connections {
+        target: CppGraphProvider
+        function onDataUpdated() {
+            // Update X-axis to "scroll" values like an osciloscope
+            timeAxis.max = Math.max(CppGraphProvider.numPoints, CppGraphProvider.displayedPoints)
+            if (CppGraphProvider.numPoints > CppGraphProvider.displayedPoints)
+                timeAxis.min = Math.abs(CppGraphProvider.numPoints - CppGraphProvider.displayedPoints)
+            else {
+                timeAxis.min = CppGraphProvider.firstPoint(graphId)
+                timeAxis.max = timeAxis.max + timeAxis.min
+            }
+
+            // Error on scroll, default to fallback mode
+            if (timeAxis.min >= timeAxis.max) {
+                timeAxis.min = 0
+                timeAxis.max = CppGraphProvider.displayedPoints
+            }
+
+            // Update maximum value (if required)
+            var value = CppGraphProvider.getValue(graphId)
+            if (value > maximumValue)
+                maximumValue = value
+
+            // Center graph verticaly
+            positionAxis.min = maximumValue * (1 - 0.2)
+            positionAxis.max = maximumValue * (1 + 0.2)
+
+            // Update graph axes
+            series.axisX = timeAxis
+            series.axisYRight = positionAxis
+
+            // Draw graph
+            CppGraphProvider.updateGraph(series, graphId)
+        }
+    }
 
     Item {
         anchors.fill: parent
@@ -48,46 +81,35 @@ Window {
             legend.visible: false
             backgroundRoundness: 0
             theme: ChartView.ChartThemeDark
+            animationOptions: ChartView.SeriesAnimations
 
             ValueAxis {
                 id: timeAxis
                 min: 0
-                max: CppGraphProvider.maxPoints
+                max: 1
+                labelFormat: ""
+                gridVisible: false
+                labelsVisible: false
+                lineVisible: false
+                tickType: ValueAxis.TicksFixed
             }
 
             ValueAxis {
                 id: positionAxis
-                min: Math.min(0, minimumValue)
-                max: Math.max(0, maximumValue)
+                min: 0
+                max: 1
+                gridVisible: true
+                tickType: ValueAxis.TicksFixed
+                gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
             }
 
             LineSeries {
-                width: 2
                 id: series
+                width: 2
                 useOpenGL: true
-                axisX: timeAxis
-                axisY: positionAxis
-                color: app.consoleColor
+                capStyle: Qt.RoundCap
+                color: Qt.rgba(215/255, 45/255, 96/255, 1)
             }
-        }
-    }
-
-    Timer {
-        interval: 1000 / 60
-        repeat: true
-        running: true
-        onTriggered: {
-            var value = CppGraphProvider.getValue(graphId)
-            if (value > maximumValue)
-                maximumValue = value * 1.2
-            if (value < minimumValue)
-                minimumValue = value
-
-            positionAxis.min = Math.min(0, minimumValue)
-            positionAxis.max = Math.max(1, maximumValue)
-            series.axisX = positionAxis
-
-            CppGraphProvider.updateGraph(series, graphId)
         }
     }
 }

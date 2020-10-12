@@ -35,7 +35,7 @@ class GraphProvider : public QObject
 {
    Q_OBJECT
 
-   Q_PROPERTY(quint64 maxPoints READ maxPoints CONSTANT)
+   Q_PROPERTY(quint64 displayedPoints READ displayedPoints CONSTANT)
    Q_PROPERTY(int graphCount READ graphCount NOTIFY dataUpdated)
    Q_PROPERTY(quint64 numPoints READ numPoints NOTIFY dataUpdated)
    Q_PROPERTY(QList<Dataset *> datasets READ datasets NOTIFY dataUpdated)
@@ -48,9 +48,10 @@ public:
 
    int graphCount() const;
    quint64 numPoints() const;
-   quint64 maxPoints() const;
+   quint64 displayedPoints() const;
    QList<Dataset *> datasets() const;
    Q_INVOKABLE double getValue(const int index) const;
+   Q_INVOKABLE quint64 firstPoint(const int index) const;
    Q_INVOKABLE Dataset *getDataset(const int index) const;
 
 public slots:
@@ -65,7 +66,7 @@ private slots:
 private:
    quint64 m_numPoints;
    QList<Dataset *> m_datasets;
-   QList<QVector<QPointF> *> m_readings;
+   QList<QVector<QPointF> *> m_pointVectors;
 };
 
 #endif

@@ -38,32 +38,38 @@ Item {
     Connections {
         target: CppQmlBridge
         function onUpdated() {
-            var count = CppQmlBridge.groupCount
-
-            groupGenerator.model = 0
-            logoWindow.visible = (count % 2) !== 0
-
-            if (count > 0) {
-                dataGrid.title = CppQmlBridge.projectTitle
+            dataGrid.title = CppQmlBridge.projectTitle
+            if (groupGenerator.model !== CppQmlBridge.groupCount) {
+                groupGenerator.model = 0
                 groupGenerator.model = CppQmlBridge.groupCount
             }
+        }
+    }
 
-            else {
-                dataGrid.title = ""
+    Connections {
+        target: CppGraphProvider
+        function onDataUpdated() {
+            if (graphGenerator.model !== CppGraphProvider.graphCount) {
+                graphGenerator.model = 0
+                graphGenerator.model = CppGraphProvider.graphCount
             }
         }
     }
 
     ColumnLayout {
+        x: 2 * app.spacing
         anchors.fill: parent
         spacing: app.spacing * 2
         anchors.margins: app.spacing * 2
 
+        //
+        // Title
+        //
         Rectangle {
             radius: 5
             height: 32
             Layout.fillWidth: true
-            color: Qt.darker(app.consoleColor)
+            color: palette.highlight
 
             RowLayout {
                 spacing: app.spacing
@@ -84,7 +90,7 @@ Item {
                     ColorOverlay {
                         source: parent
                         anchors.fill: parent
-                        color: palette.text
+                        color: palette.brightText
                     }
                 }
 
@@ -92,12 +98,14 @@ Item {
                     font.bold: true
                     font.pixelSize: 16
                     text: dataGrid.title
+                    color: palette.brightText
                     font.family: app.monoFont
                 }
             }
 
             Label {
                 font.family: app.monoFont
+                color: palette.brightText
                 text: CppSerialManager.receivedBytes
 
                 anchors {
@@ -108,90 +116,126 @@ Item {
             }
         }
 
-        GridLayout {
-            columns: 2
+        //
+        // Group data & graphs
+        //
+        RowLayout {
+            spacing: app.spacing
             Layout.fillWidth: true
             Layout.fillHeight: true
-            rowSpacing: app.spacing
-            columnSpacing: app.spacing
 
-            Repeater {
-                id: groupGenerator
+            //
+            // View options
+            //
+            Window {
+                title: qsTr("View")
+                Layout.fillHeight: true
+                Layout.minimumWidth: 240
 
-                delegate: Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    
-                    GroupDelegate {
-                        anchors.fill: parent
-                        group: CppQmlBridge.getGroup(index)
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.topMargin: 0
+                    anchors.margins: 3
+
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0
+                            color: Qt.rgba(46 / 255, 48 / 255, 58 / 255, 1)
+                        }
+
+                        GradientStop {
+                            position: 1
+                            color: Qt.rgba(18 / 255, 18 / 255, 24 / 255, 1)
+                        }
+                    }
+                }
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: app.spacing * 2
+
+                    Label {
+                        font.bold: true
+                        text: qsTr("Groups")
+                    }
+
+                    Repeater {
+                        model: groupGenerator.model
+                        delegate: Switch {
+                            checked: true
+                            Layout.fillWidth: true
+                            text: CppQmlBridge.getGroup(index).title
+                        }
+                    }
+
+                    Label {
+                        font.bold: true
+                        text: qsTr("Graphs")
+                    }
+
+                    Repeater {
+                        model: graphGenerator.model
+                        delegate: Switch {
+                            checked: true
+                            Layout.fillWidth: true
+                            text: CppGraphProvider.getDataset(index).title
+                        }
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
                     }
                 }
             }
 
-            Item {
-                id: logoWindow
-                visible: false
+            //
+            // Data grid
+            //
+            ScrollView {
+                id: _sv
+                clip: true
+                contentWidth: -1
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                
-                Window {
-                    id: _window
+                ScrollBar.vertical.z: 5
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.visible: ScrollBar.vertical.size < 1
 
-                    spacing: 0
-                    showIcon: false
-                    title: qsTr("About")
-                    anchors.fill: parent
-                    backgroundColor: "#000"
-                    borderColor: Qt.darker(app.consoleColor)
+                GridLayout {
+                    columns: Math.floor(width / 320)
+                    rowSpacing: app.spacing
+                    columnSpacing: app.spacing
+                    width: _sv.width - 10 - app.spacing
 
-                    Canvas {
-                        id: canvas
-                        onPaint: drawSine()
-                        anchors.fill: parent
-                        anchors.margins: _window.borderWidth
+                    Repeater {
+                        id: groupGenerator
 
-                        property var time: 0
-                        property var color: Qt.darker(app.consoleColor)
+                        delegate: Item {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            Layout.minimumHeight: 196
 
-                        function drawSine()
-                        {
-                            var context = canvas.getContext("2d")
-                            var tvHeight = canvas.height
-                            var tvWidth = canvas.width
-                            var pixelWidth = 10
-                            var pixelHeight = 10
-
-                            for (var v = 0; v < tvHeight; v += pixelHeight){
-                                for (var h = 0; h < tvWidth; h += pixelWidth) {
-                                    var lum = Math.random() * 0.10
-                                    var r = (0x52 * lum) / 0xff
-                                    var g = (0xd7 * lum) / 0xff
-                                    var b = (0x88 * lum) / 0xff
-                                    context.fillStyle = Qt.rgba(r, g, b, 1)
-                                    context.fillRect(h,v,pixelWidth,pixelHeight)
-                                }
+                            GroupDelegate {
+                                groupIndex: index
+                                anchors.fill: parent
+                                group: CppQmlBridge.getGroup(index)
                             }
-                        }
-
-                        Timer {
-                            interval: 50
-                            repeat: true
-                            Component.onCompleted: start()
-                            onTriggered: canvas.requestPaint()
                         }
                     }
 
-                    Image {
-                        anchors.fill: parent
-                        fillMode: Image.PreserveAspectFit
-                        source: "qrc:/images/siglab.svg"
-                        anchors.margins: (Math.min(dataGrid.width, dataGrid.height) / 20)
+                    Repeater {
+                        id: graphGenerator
 
-                        ColorOverlay {
-                            source: parent
-                            anchors.fill: parent
-                            color: app.consoleColor
+                        delegate: Item {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            Layout.minimumHeight: 196
+
+                            GraphDelegate {
+                                graphId: index
+                                anchors.fill: parent
+                            }
                         }
                     }
                 }

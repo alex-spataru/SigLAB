@@ -797,7 +797,7 @@ void SerialManager::onDataReceived()
          auto text = QString::fromUtf8(data);
          text.replace("\r\n", "<br/>");
          text.replace("\n", "<br/>");
-         m_textCursor->insertHtml("<font color=#52d788>" + text + "</font>");
+         m_textCursor->insertText(text);
       }
 
       // Add data to temp. buffer

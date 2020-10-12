@@ -32,10 +32,33 @@ Window {
     spacing: -1
     showIcon: false
     title: group.title
-    borderColor: Qt.darker(app.consoleColor)
-    backgroundColor: "#000"
 
+    property int groupIndex: 0
     property Group group: null
+
+    Connections {
+        target: CppQmlBridge
+        function onUpdated() {
+            group = CppQmlBridge.getGroup(groupIndex)
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        anchors.topMargin: 0
+        anchors.margins: borderWidth
+        gradient: Gradient {
+            GradientStop {
+                position: 0
+                color: Qt.rgba(46 / 255, 48 / 255, 58 / 255, 1)
+            }
+
+            GradientStop {
+                position: 1
+                color: Qt.rgba(18 / 255, 18 / 255, 24 / 255, 1)
+            }
+        }
+    }
 
     ScrollView {
         id: _sv
@@ -45,14 +68,15 @@ Window {
         anchors.margins: app.spacing * 2
 
         ScrollBar.vertical.z: 5
+        enabled: contentHeight > parent.width
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical.visible: ScrollBar.vertical.size < 1
 
         ColumnLayout {
-            x: 0
+            x: 2 * app.spacing
             spacing: app.spacing
-            width: _sv.width - (_sv.ScrollBar.vertical.visible ? 10 : 0)
+            width: _sv.width - (_sv.ScrollBar.vertical.visible ? 10 : 0) - 4 * app.spacing
 
             Repeater {
                 model: group.datasetCount

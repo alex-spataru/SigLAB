@@ -68,9 +68,12 @@ Page {
                 TabBar {
                     id: tabBar
                     contentHeight: 32
+                    visible: CppQmlBridge.gpsSupported
                     enabled: CppQmlBridge.groupCount > 0
                     opacity: CppQmlBridge.groupCount > 0 ? 1 : 0
                     Behavior on opacity {NumberAnimation{}}
+
+                    onVisibleChanged: dataButton.clicked()
 
                     anchors {
                         leftMargin: 3
@@ -81,11 +84,8 @@ Page {
                     }
 
                     TabButton {
+                        id: dataButton
                         text: qsTr("Data")
-                    }
-
-                    TabButton {
-                        text: qsTr("Graphs")
                     }
 
                     TabButton {
@@ -99,7 +99,7 @@ Page {
                     interactive: false
                     anchors.fill: parent
                     anchors.margins: dataDis.borderWidth
-                    anchors.topMargin: tabBar.height
+                    anchors.topMargin: tabBar.visible ? tabBar.height : dataDis.borderWidth
                     currentIndex: tabBar.currentIndex
                     enabled: CppQmlBridge.groupCount > 0
                     opacity: CppQmlBridge.groupCount > 0 ? 1 : 0
@@ -107,12 +107,6 @@ Page {
 
                     Components.DataGrid {
                         id: dataGrid
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                    }
-
-                    Components.GraphGrid {
-                        id: graphGrid
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                     }

@@ -16,6 +16,13 @@ QT_CHARTS_USE_NAMESPACE
 Q_DECLARE_METATYPE(QAbstractSeries *)
 Q_DECLARE_METATYPE(QAbstractAxis *)
 
+template<typename T>
+static void RemoveOldData(QVector<T> *vector, const int max)
+{
+   if (vector->count() > max)
+      vector->remove(0, vector->count() - max + 1);
+}
+
 GraphProvider::GraphProvider()
 {
    // Register data types
@@ -44,9 +51,9 @@ quint64 GraphProvider::numPoints() const
    return m_numPoints;
 }
 
-quint64 GraphProvider::maxPoints() const
+quint64 GraphProvider::displayedPoints() const
 {
-   return 10;
+   return 60;
 }
 
 QList<Dataset *> GraphProvider::datasets() const
@@ -58,6 +65,14 @@ double GraphProvider::getValue(const int index) const
 {
    if (index < graphCount() && index >= 0)
       return getDataset(index)->value().toDouble();
+
+   return 0;
+}
+
+quint64 GraphProvider::firstPoint(const int index) const
+{
+   if (index < graphCount() && index >= 0)
+      return m_pointVectors.at(index)->first().x();
 
    return 0;
 }
@@ -87,24 +102,18 @@ void GraphProvider::updateValues()
       }
    }
 
-   // Reset counter
-   if (numPoints() > maxPoints())
-   {
-      m_numPoints = 0;
-      m_readings.clear();
-   }
-
    // Create list with dataset values (converted to double)
    for (int i = 0; i < graphCount(); ++i)
    {
-      if (m_readings.count() < (i + 1))
+      if (m_pointVectors.count() < (i + 1))
       {
          auto vector = new QVector<QPointF>();
-         m_readings.append(vector);
+         m_pointVectors.append(vector);
       }
 
+      RemoveOldData<QPointF>(m_pointVectors.at(i), displayedPoints());
       QPointF point(m_numPoints, getValue(i));
-      m_readings.at(i)->append(point);
+      m_pointVectors.at(i)->append(point);
    }
 
    // Increment counter
@@ -124,7 +133,7 @@ void GraphProvider::updateGraph(QAbstractSeries *series, const int index)
       return;
 
    // Obtener puntos para la señal especificada
-   QVector<QPointF> *data = m_readings.at(index);
+   QVector<QPointF> *data = m_pointVectors.at(index);
 
    // Convertir la gráfica a XY y remplazar puntos
    if (data != Q_NULLPTR)

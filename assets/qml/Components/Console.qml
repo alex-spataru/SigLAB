@@ -58,6 +58,7 @@ Widgets.Window {
             readOnly: true
             Layout.fillWidth: true
             Layout.fillHeight: true
+            palette.base: Qt.darker(app.palette.base)
 
             ScrollView {
                 id: _scrollView
@@ -70,6 +71,7 @@ Widgets.Window {
                     id: _console
                     readOnly: true
                     font.pixelSize: 12
+                    color: app.consoleColor
                     wrapMode: TextEdit.Wrap
                     textFormat: Text.RichText
                     font.family: app.monoFont
@@ -92,6 +94,7 @@ Widgets.Window {
                 font.family: app.monoFont
                 opacity: enabled ? 1 : 0.5
                 enabled: CppSerialManager.readWrite
+                palette.base: Qt.darker(app.palette.base)
                 placeholderText: qsTr("Send data to device") + "..."
                 Keys.onReturnPressed: {
                     CppSerialManager.sendData(_tf.text)

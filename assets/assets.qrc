@@ -40,7 +40,6 @@
         <file>qml/Components/Console.qml</file>
         <file>qml/Components/DataGrid.qml</file>
         <file>qml/Components/DeviceManager.qml</file>
-        <file>qml/Components/GraphGrid.qml</file>
         <file>qml/Components/ToolBar.qml</file>
         <file>qml/main.qml</file>
         <file>qml/UI.qml</file>
