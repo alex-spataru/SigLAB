@@ -20,46 +20,49 @@
  * THE SOFTWARE.
  */
 
-import QtQuick 2.12
-import QtCharts 2.0
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+#ifndef GRAPH_PROVIDER_H
+#define GRAPH_PROVIDER_H
 
-import Dataset 1.0
+#include <QList>
+#include <QObject>
+#include <QVector>
+#include <QAbstractSeries>
 
-ChartView {
-    property int graphId: -1
+QT_CHARTS_USE_NAMESPACE
 
-    antialiasing: false
-    backgroundRoundness: 0
-    theme: ChartView.ChartThemeDark
+class Dataset;
+class GraphProvider : public QObject
+{
+   Q_OBJECT
 
-    ValueAxis {
-        id: timeAxis
-        min: 1
-        max: 1
-    }
+   Q_PROPERTY(int graphCount READ graphCount NOTIFY dataUpdated)
+   Q_PROPERTY(quint64 numPoints READ numPoints NOTIFY dataUpdated)
+   Q_PROPERTY(QList<Dataset *> datasets READ datasets NOTIFY dataUpdated)
 
-    ValueAxis {
-        id: positionAxis
-    }
+signals:
+   void dataUpdated();
 
-    LineSeries {
-        id: series
-        useOpenGL: true
-        axisX: timeAxis
-        axisY: positionAxis
-        name: CppGraphProvider.getDataset(graphId).title
-    }
+public:
+   static GraphProvider *getInstance();
 
-    Timer {
-        interval: 1000 / 60
-        repeat: true
-        running: true
-        onTriggered: {
-            timeAxis.max = Math.max(CppGraphProvider.numPoints, 100)
-            timeAxis.min = Math.max(0, CppGraphProvider.numPoints - 100)
-            CppGraphProvider.updateGraph(series, graphId)
-        }
-    }
-}
+   int graphCount();
+   quint64 numPoints();
+   QList<Dataset *> datasets();
+   Q_INVOKABLE Dataset *getDataset(const int index);
+
+public slots:
+   void updateGraph(QAbstractSeries *series, const int index);
+
+private:
+   GraphProvider();
+
+private slots:
+   void updateValues();
+
+private:
+   quint64 m_numPoints;
+   QList<Dataset *> m_datasets;
+   QList<QVector<QPointF> *> m_readings;
+};
+
+#endif

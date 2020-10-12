@@ -46,6 +46,7 @@ QT += xml
 QT += svg
 QT += core
 QT += quick
+QT += charts
 QT += serialport
 QT += quickcontrols2
 
@@ -110,6 +111,7 @@ HEADERS += \
     src/AppInfo.h \
     src/Dataset.h \
     src/Export.h \
+    src/GraphProvider.h \
     src/Group.h \
     src/JsonParser.h \
     src/QmlBridge.h \
@@ -118,6 +120,7 @@ HEADERS += \
 SOURCES += \
     src/Dataset.cpp \
     src/Export.cpp \
+    src/GraphProvider.cpp \
     src/Group.cpp \
     src/JsonParser.cpp \
     src/QmlBridge.cpp \

@@ -34,23 +34,16 @@ Item {
     id: dataGrid
 
     property string title: ""
-    property bool groupCountChanged: false
 
     Connections {
         target: CppQmlBridge
         function onUpdated() {
-            var previousCount = groupGenerator.count
-            var currentCount = CppQmlBridge.groupCount
-
-            if (previousCount != currentCount)
-                dataGrid.groupCountChanged = true
-            else
-                dataGrid.groupCountChanged = false
+            var count = CppQmlBridge.groupCount
 
             groupGenerator.model = 0
-            logoWindow.visible = (currentCount % 2) !== 0
+            logoWindow.visible = (count % 2) !== 0
 
-            if (currentCount > 0) {
+            if (count > 0) {
                 dataGrid.title = CppQmlBridge.projectTitle
                 groupGenerator.model = CppQmlBridge.groupCount
             }

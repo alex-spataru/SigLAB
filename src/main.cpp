@@ -30,6 +30,7 @@
 
 #include "AppInfo.h"
 #include "QmlBridge.h"
+#include "GraphProvider.h"
 #include "SerialManager.h"
 
 int main(int argc, char **argv)
@@ -46,6 +47,7 @@ int main(int argc, char **argv)
 
    // Init application modules
    auto qmlBridge = QmlBridge::getInstance();
+   auto graphProvider = GraphProvider::getInstance();
    auto serialManager = SerialManager::getInstance();
 
    // Register QML types
@@ -56,6 +58,7 @@ int main(int argc, char **argv)
    QQmlApplicationEngine engine;
    QQuickStyle::setStyle("Fusion");
    engine.rootContext()->setContextProperty("CppQmlBridge", qmlBridge);
+   engine.rootContext()->setContextProperty("CppGraphProvider", graphProvider);
    engine.rootContext()->setContextProperty("CppSerialManager", serialManager);
    engine.rootContext()->setContextProperty("CppAppName", app.applicationName());
    engine.rootContext()->setContextProperty("CppAppVersion", app.applicationVersion());

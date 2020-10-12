@@ -91,12 +91,14 @@ Page {
                     TabButton {
                         text: qsTr("GPS Map")
                         enabled: CppQmlBridge.gpsSupported
-                        visible: CppQmlBridge.gpsSupported
                     }
                 }
 
-                StackLayout {
+                SwipeView {
+                    clip: true
+                    interactive: false
                     anchors.fill: parent
+                    anchors.margins: dataDis.borderWidth
                     anchors.topMargin: tabBar.height
                     currentIndex: tabBar.currentIndex
                     enabled: CppQmlBridge.groupCount > 0
@@ -169,7 +171,7 @@ Page {
             // Console
             //
             Components.Console {
-                id: console
+                id: consoleWindow
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 opacity: enabled ? 1 : 0

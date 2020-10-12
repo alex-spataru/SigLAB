@@ -24,9 +24,45 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
+import "../Widgets"
+
 Item {
-    Label {
-        text: qsTr("Graph Grid")
-        anchors.centerIn: parent
+    id: graphGrid
+
+    Connections {
+        target: CppGraphProvider
+
+        function onDataUpdated() {
+            graphGenerator.model = 0
+            graphGenerator.model = CppGraphProvider.graphCount
+            console.log("dada")
+        }
+    }
+
+    GridLayout {
+        columns: 3
+        anchors.fill: parent
+        rowSpacing: app.spacing
+        columnSpacing: app.spacing
+        anchors.margins: app.spacing * 2
+
+        Repeater {
+            id: graphGenerator
+
+            delegate: Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                Rectangle {
+                    color: "#f00"
+                    anchors.fill: parent
+                }
+
+                GraphDelegate {
+                    graphId: index
+                    anchors.fill: parent
+                }
+            }
+        }
     }
 }
