@@ -16,17 +16,6 @@ QT_CHARTS_USE_NAMESPACE
 Q_DECLARE_METATYPE(QAbstractSeries *)
 Q_DECLARE_METATYPE(QAbstractAxis *)
 
-/**
- * Implementacion de una funcion que elimina los elementos mas viejos de una lista
- * mientras que el numero de lecturas de la lista es mayor al numero maximo de lecturas.
- */
-template<typename T>
-static void RemoveOldValues(QVector<T> *vector, const int maxElements)
-{
-   while (vector->count() > maxElements)
-      vector->removeFirst();
-}
-
 GraphProvider::GraphProvider()
 {
    // Register data types
@@ -45,22 +34,35 @@ GraphProvider *GraphProvider::getInstance()
    return INSTANCE;
 }
 
-int GraphProvider::graphCount()
+int GraphProvider::graphCount() const
 {
    return datasets().count();
 }
 
-quint64 GraphProvider::numPoints()
+quint64 GraphProvider::numPoints() const
 {
    return m_numPoints;
 }
 
-QList<Dataset *> GraphProvider::datasets()
+quint64 GraphProvider::maxPoints() const
+{
+   return 10;
+}
+
+QList<Dataset *> GraphProvider::datasets() const
 {
    return m_datasets;
 }
 
-Dataset *GraphProvider::getDataset(const int index)
+double GraphProvider::getValue(const int index) const
+{
+   if (index < graphCount() && index >= 0)
+      return getDataset(index)->value().toDouble();
+
+   return 0;
+}
+
+Dataset *GraphProvider::getDataset(const int index) const
 {
    if (index < graphCount() && index >= 0)
       return datasets().at(index);
@@ -85,6 +87,13 @@ void GraphProvider::updateValues()
       }
    }
 
+   // Reset counter
+   if (numPoints() > maxPoints())
+   {
+      m_numPoints = 0;
+      m_readings.clear();
+   }
+
    // Create list with dataset values (converted to double)
    for (int i = 0; i < graphCount(); ++i)
    {
@@ -94,9 +103,7 @@ void GraphProvider::updateValues()
          m_readings.append(vector);
       }
 
-      RemoveOldValues<QPointF>(m_readings.at(i), 100);
-      auto value = getDataset(i)->value().toDouble();
-      QPointF point(m_numPoints, value);
+      QPointF point(m_numPoints, getValue(i));
       m_readings.at(i)->append(point);
    }
 
@@ -104,7 +111,7 @@ void GraphProvider::updateValues()
    ++m_numPoints;
 
    // Update graphs
-   void dataUpdated();
+   QTimer::singleShot(10, this, SIGNAL(dataUpdated()));
 }
 
 void GraphProvider::updateGraph(QAbstractSeries *series, const int index)

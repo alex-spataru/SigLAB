@@ -62,8 +62,8 @@ Item {
         Rectangle {
             radius: 5
             height: 32
-            color: "#484"
             Layout.fillWidth: true
+            color: Qt.darker(app.consoleColor)
 
             RowLayout {
                 spacing: app.spacing
@@ -141,9 +141,9 @@ Item {
                     spacing: 0
                     showIcon: false
                     title: qsTr("About")
-                    borderColor: "#484"
                     anchors.fill: parent
                     backgroundColor: "#000"
+                    borderColor: Qt.darker(app.consoleColor)
 
                     Canvas {
                         id: canvas

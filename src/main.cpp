@@ -22,7 +22,7 @@
 
 #include <QtQml>
 #include <QQuickStyle>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 
 #include "Group.h"
@@ -36,10 +36,10 @@
 int main(int argc, char **argv)
 {
    // Set application attributes
-   QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
    // Init. application
-   QGuiApplication app(argc, argv);
+   QApplication app(argc, argv);
    app.setApplicationName(APP_NAME);
    app.setApplicationVersion(APP_VERSION);
    app.setOrganizationName(APP_DEVELOPER);

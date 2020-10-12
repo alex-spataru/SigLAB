@@ -22,34 +22,54 @@
 
 import QtQuick 2.12
 import QtCharts 2.0
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
 
 import Dataset 1.0
 
-ChartView {
+Window {
     property int graphId: -1
+    property real minimumValue: 0
+    property real maximumValue: 1
 
-    antialiasing: false
-    backgroundRoundness: 0
-    theme: ChartView.ChartThemeDark
+    spacing: -1
+    showIcon: false
+    borderColor: Qt.darker(app.consoleColor)
+    backgroundColor: Qt.darker(app.consoleColor)
+    title: CppGraphProvider.getDataset(graphId).title +
+           " (" + CppGraphProvider.getDataset(graphId).units + ")"
 
-    ValueAxis {
-        id: timeAxis
-        min: 1
-        max: 1
-    }
+    Item {
+        anchors.fill: parent
+        anchors.margins: -9
+        anchors.topMargin: -11
 
-    ValueAxis {
-        id: positionAxis
-    }
+        ChartView {
+            antialiasing: true
+            anchors.fill: parent
+            legend.visible: false
+            backgroundRoundness: 0
+            theme: ChartView.ChartThemeDark
 
-    LineSeries {
-        id: series
-        useOpenGL: true
-        axisX: timeAxis
-        axisY: positionAxis
-        name: CppGraphProvider.getDataset(graphId).title
+            ValueAxis {
+                id: timeAxis
+                min: 0
+                max: CppGraphProvider.maxPoints
+            }
+
+            ValueAxis {
+                id: positionAxis
+                min: Math.min(0, minimumValue)
+                max: Math.max(0, maximumValue)
+            }
+
+            LineSeries {
+                width: 2
+                id: series
+                useOpenGL: true
+                axisX: timeAxis
+                axisY: positionAxis
+                color: app.consoleColor
+            }
+        }
     }
 
     Timer {
@@ -57,8 +77,16 @@ ChartView {
         repeat: true
         running: true
         onTriggered: {
-            timeAxis.max = Math.max(CppGraphProvider.numPoints, 100)
-            timeAxis.min = Math.max(0, CppGraphProvider.numPoints - 100)
+            var value = CppGraphProvider.getValue(graphId)
+            if (value > maximumValue)
+                maximumValue = value * 1.2
+            if (value < minimumValue)
+                minimumValue = value
+
+            positionAxis.min = Math.min(0, minimumValue)
+            positionAxis.max = Math.max(1, maximumValue)
+            series.axisX = positionAxis
+
             CppGraphProvider.updateGraph(series, graphId)
         }
     }

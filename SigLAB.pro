@@ -47,6 +47,7 @@ QT += svg
 QT += core
 QT += quick
 QT += charts
+QT += widgets
 QT += serialport
 QT += quickcontrols2
 

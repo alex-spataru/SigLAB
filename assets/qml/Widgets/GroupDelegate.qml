@@ -32,7 +32,7 @@ Window {
     spacing: -1
     showIcon: false
     title: group.title
-    borderColor: "#484"
+    borderColor: Qt.darker(app.consoleColor)
     backgroundColor: "#000"
 
     property Group group: null

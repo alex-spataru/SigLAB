@@ -35,6 +35,7 @@ class GraphProvider : public QObject
 {
    Q_OBJECT
 
+   Q_PROPERTY(quint64 maxPoints READ maxPoints CONSTANT)
    Q_PROPERTY(int graphCount READ graphCount NOTIFY dataUpdated)
    Q_PROPERTY(quint64 numPoints READ numPoints NOTIFY dataUpdated)
    Q_PROPERTY(QList<Dataset *> datasets READ datasets NOTIFY dataUpdated)
@@ -45,10 +46,12 @@ signals:
 public:
    static GraphProvider *getInstance();
 
-   int graphCount();
-   quint64 numPoints();
-   QList<Dataset *> datasets();
-   Q_INVOKABLE Dataset *getDataset(const int index);
+   int graphCount() const;
+   quint64 numPoints() const;
+   quint64 maxPoints() const;
+   QList<Dataset *> datasets() const;
+   Q_INVOKABLE double getValue(const int index) const;
+   Q_INVOKABLE Dataset *getDataset(const int index) const;
 
 public slots:
    void updateGraph(QAbstractSeries *series, const int index);

@@ -31,15 +31,18 @@ Item {
 
     Connections {
         target: CppGraphProvider
-
         function onDataUpdated() {
-            graphGenerator.model = 0
-            graphGenerator.model = CppGraphProvider.graphCount
-            console.log("dada")
+            grid.columns = (CppGraphProvider.graphCount < 4) ? 1 : 3
+
+            if (graphGenerator.model !== CppGraphProvider.graphCount) {
+                graphGenerator.model = 0
+                graphGenerator.model = CppGraphProvider.graphCount
+            }
         }
     }
 
     GridLayout {
+        id: grid
         columns: 3
         anchors.fill: parent
         rowSpacing: app.spacing
@@ -52,11 +55,6 @@ Item {
             delegate: Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
-                Rectangle {
-                    color: "#f00"
-                    anchors.fill: parent
-                }
 
                 GraphDelegate {
                     graphId: index
