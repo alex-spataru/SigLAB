@@ -28,9 +28,11 @@ import Dataset 1.0
 Window {
     property int graphId: -1
     property real maximumValue: -1000
+    property real minimumValue: +1000
 
     spacing: -1
     showIcon: false
+    borderColor: Qt.rgba(81/255, 116/255, 151/255, 1)
     title: CppGraphProvider.getDataset(graphId).title +
            " (" + CppGraphProvider.getDataset(graphId).units + ")"
 
@@ -56,10 +58,15 @@ Window {
             var value = CppGraphProvider.getValue(graphId)
             if (value > maximumValue)
                 maximumValue = value
+            if (value < minimumValue)
+                minimumValue = value
+
+            // Get central value
+            var medianValue = (maximumValue + minimumValue) / 2
 
             // Center graph verticaly
-            positionAxis.min = maximumValue * (1 - 0.2)
-            positionAxis.max = maximumValue * (1 + 0.2)
+            positionAxis.min = medianValue * (1 - 0.2)
+            positionAxis.max = medianValue * (1 + 0.2)
 
             // Update graph axes
             series.axisX = timeAxis
@@ -87,19 +94,22 @@ Window {
                 id: timeAxis
                 min: 0
                 max: 1
-                labelFormat: ""
-                gridVisible: false
-                labelsVisible: false
+                labelFormat: " "
                 lineVisible: false
+                labelsVisible: false
                 tickType: ValueAxis.TicksFixed
+                labelsFont.family: app.monoFont
+                gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
             }
 
             ValueAxis {
                 id: positionAxis
                 min: 0
                 max: 1
-                gridVisible: true
+                lineVisible: false
                 tickType: ValueAxis.TicksFixed
+                labelsFont.family: app.monoFont
+                labelsColor: Qt.rgba(81/255, 116/255, 151/255, 1)
                 gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
             }
 

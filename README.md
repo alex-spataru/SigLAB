@@ -12,7 +12,7 @@ The need for this project arose during the development of the Ground Station Sof
 
 Furthermore, this approach can be extended to almost any type of project that involves some kind of data acquisition & measurement.
 
-![Screenshot](doc/screenshot.png)
+![Screenshot](doc/mainwindow.png)
 
 ## Communication Protocol
 

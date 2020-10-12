@@ -192,6 +192,7 @@ Widgets.Window {
                 font.pixelSize: 18
                 font.family: app.monoFont
                 Layout.alignment: Qt.AlignVCenter
+                color: _rx.enabled ? _rx.onColor : _rx.offColor
             }
 
             Image {
@@ -204,7 +205,7 @@ Widgets.Window {
                 ColorOverlay {
                     source: parent
                     anchors.fill: parent
-                    color: Qt.darker(app.consoleColor)
+                    color: _rx.offColor
                 }
             }
 
@@ -214,6 +215,7 @@ Widgets.Window {
                 font.pixelSize: 18
                 font.family: app.monoFont
                 Layout.alignment: Qt.AlignVCenter
+                color: _tx.enabled ? _tx.onColor : _tx.offColor
             }
 
             Widgets.LED {

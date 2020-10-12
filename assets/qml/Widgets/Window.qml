@@ -25,7 +25,9 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
 Page {
+    clip: true
     id: window
+
 
     //
     // Custom properties
@@ -70,6 +72,7 @@ Page {
         radius: window.borderWidth + 2
 
         Rectangle {
+            z: 5
             color: parent.color
             height: parent.radius
 

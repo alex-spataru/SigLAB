@@ -35,9 +35,9 @@ RowLayout {
     property alias indicator: _dot
     property alias text: _label.text
     property alias font: _label.font
-    property color onColor: app.consoleColor
-    property color offColor: Qt.darker(app.consoleColor)
     property alias flashDuration: _timer.interval
+    property color onColor: Qt.rgba(64/255, 157/255, 160/255, 1)
+    property color offColor: Qt.rgba(45/255, 96/255, 115/255, 1)
 
     //
     // Turns on the LED for a short period of time
@@ -77,6 +77,7 @@ RowLayout {
     Label {
         id: _label
         font.family: app.monoFont
+        color: palette.highlightedText
         Layout.alignment: Qt.AlignVCenter
     }
 }

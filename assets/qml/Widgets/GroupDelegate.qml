@@ -32,6 +32,7 @@ Window {
     spacing: -1
     showIcon: false
     title: group.title
+    borderColor: Qt.rgba(81/255, 116/255, 151/255, 1)
 
     property int groupIndex: 0
     property Group group: null

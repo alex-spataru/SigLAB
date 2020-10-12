@@ -69,13 +69,13 @@ ApplicationWindow {
     // Set fusion palette
     //
     palette.base: Qt.rgba(33/255, 55/255, 63/255, 1)
-    palette.text: Qt.rgba(230/255, 224/255, 178/255, 1)
+    palette.text: Qt.rgba(255/255, 255/255, 255/255, 1)
     palette.link: Qt.rgba(64/255, 157/255, 160/255, 1)
     palette.button: Qt.rgba(33/255, 55/255, 63/255, 1)
     palette.window: Qt.rgba(33/255, 55/255, 63/255, 1)
     palette.highlight: Qt.rgba(64/255, 157/255, 160/255, 1)
-    palette.buttonText: Qt.rgba(230/255, 224/255, 178/255, 1)
-    palette.windowText: Qt.rgba(230/255, 224/255, 178/255, 1)
+    palette.buttonText: Qt.rgba(255/255, 255/255, 255/255, 1)
+    palette.windowText: Qt.rgba(255/255, 255/255, 255/255, 1)
     palette.toolTipBase: Qt.rgba(230/255, 224/255, 178/255, 1)
     palette.toolTipText: Qt.rgba(230/255, 224/255, 178/255, 1)
     palette.brightText: Qt.rgba(255/255, 255/255, 255/255, 1)
