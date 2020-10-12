@@ -23,6 +23,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.0
 
 import Qt.labs.settings 1.0
 
@@ -186,7 +187,31 @@ Widgets.Window {
             }
 
             Label {
-                text: "RX // TX"
+                text: "RX"
+                font.bold: true
+                font.pixelSize: 18
+                font.family: app.monoFont
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Image {
+                width: sourceSize.width
+                height: sourceSize.height
+                sourceSize: Qt.size(32, 32)
+                source: "qrc:/icons/ethernet.svg"
+                Layout.alignment: Qt.AlignVCenter
+
+                ColorOverlay {
+                    color: "#fff"
+                    source: parent
+                    anchors.fill: parent
+                }
+            }
+
+            Label {
+                text: "TX"
+                font.bold: true
+                font.pixelSize: 18
                 font.family: app.monoFont
                 Layout.alignment: Qt.AlignVCenter
             }

@@ -152,6 +152,43 @@ Item {
                     anchors.fill: parent
                     backgroundColor: "#000"
 
+                    Canvas {
+                        id: canvas
+                        onPaint: drawSine()
+                        anchors.fill: parent
+                        anchors.margins: _window.borderWidth
+
+                        property var time: 0
+                        property var color: Qt.darker(app.consoleColor)
+
+                        function drawSine()
+                        {
+                            var context = canvas.getContext("2d")
+                            var tvHeight = canvas.height
+                            var tvWidth = canvas.width
+                            var pixelWidth = 10
+                            var pixelHeight = 10
+
+                            for (var v = 0; v < tvHeight; v += pixelHeight){
+                                for (var h = 0; h < tvWidth; h += pixelWidth) {
+                                    var lum = Math.random() * 0.10
+                                    var r = (0x52 * lum) / 0xff
+                                    var g = (0xd7 * lum) / 0xff
+                                    var b = (0x88 * lum) / 0xff
+                                    context.fillStyle = Qt.rgba(r, g, b, 1)
+                                    context.fillRect(h,v,pixelWidth,pixelHeight)
+                                }
+                            }
+                        }
+
+                        Timer {
+                            interval: 50
+                            repeat: true
+                            Component.onCompleted: start()
+                            onTriggered: canvas.requestPaint()
+                        }
+                    }
+
                     Image {
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit

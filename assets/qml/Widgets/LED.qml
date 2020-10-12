@@ -35,8 +35,8 @@ RowLayout {
     property alias indicator: _dot
     property alias text: _label.text
     property alias font: _label.font
-    property color onColor: "#00ff00"
-    property color offColor: "#004400"
+    property color onColor: app.consoleColor
+    property color offColor: Qt.darker(app.consoleColor)
     property alias flashDuration: _timer.interval
 
     //

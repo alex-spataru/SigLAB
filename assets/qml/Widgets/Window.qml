@@ -30,6 +30,7 @@ Page {
     //
     // Custom properties
     //
+    property int borderWidth: 3
     property alias icon: _bt.icon
     property color borderColor: "#666"
     property alias showIcon: _bt.visible
@@ -54,19 +55,19 @@ Page {
     // Background widget
     //
     background: Rectangle {
-        radius: 5
-        border.width: 3
         color: window.backgroundColor
         border.color: window.borderColor
+        border.width: window.borderWidth
+        radius: window.borderWidth + 2
     }
 
     //
     // Window title & controls
     //
     header: Rectangle {
-        radius: 5
         height: 32
         color: window.borderColor
+        radius: window.borderWidth + 2
 
         Rectangle {
             color: parent.color
