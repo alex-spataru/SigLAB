@@ -29,8 +29,8 @@ Window {
     id: graphWindow
 
     property int graphId: -1
-    property real maximumValue: -1000
-    property real minimumValue: +1000
+    property real maximumValue: -Infinity
+    property real minimumValue: +Infinity
 
     spacing: -1
     showIcon: false
@@ -71,11 +71,11 @@ Window {
                 minimumValue = value
 
             // Get central value
-            var medianValue = (maximumValue + minimumValue) / 2
+            var medianValue = Math.max(1, (maximumValue + minimumValue)) / 2
 
             // Center graph verticaly
-            positionAxis.min = medianValue * (1 - 0.2)
-            positionAxis.max = medianValue * (1 + 0.2)
+            positionAxis.min = medianValue * (1 - 0.5)
+            positionAxis.max = medianValue * (1 + 0.5)
 
             // Update graph axes
             series.axisX = timeAxis
