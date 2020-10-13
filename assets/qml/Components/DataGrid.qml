@@ -300,8 +300,8 @@ Item {
                         }
 
                         GridLayout {
-                            rowSpacing: app.spacing + 5
-                            columnSpacing: app.spacing + 5
+                            rowSpacing: 0
+                            columnSpacing: 0
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             columns: Math.floor(width / 224)
@@ -320,6 +320,7 @@ Item {
                                         id: groupDelegate
                                         groupIndex: index
                                         anchors.fill: parent
+                                        anchors.margins: app.spacing
                                         group: CppQmlBridge.getGroup(index)
                                         enabled: viewOptions.groups[groupIndex]
 
@@ -347,6 +348,7 @@ Item {
                                         id: graphDelegate
                                         graphId: index
                                         anchors.fill: parent
+                                        anchors.margins: app.spacing
                                         enabled: viewOptions.graphs[graphId]
 
                                         Connections {

@@ -50,23 +50,6 @@ Window {
         }
     }
 
-    Rectangle {
-        anchors.fill: parent
-        anchors.topMargin: 0
-        anchors.margins: borderWidth
-        gradient: Gradient {
-            GradientStop {
-                position: 0
-                color: Qt.rgba(46 / 255, 48 / 255, 58 / 255, 1)
-            }
-
-            GradientStop {
-                position: 1
-                color: Qt.rgba(18 / 255, 18 / 255, 24 / 255, 1)
-            }
-        }
-    }
-
     ScrollView {
         id: _sv
         clip: true

@@ -36,7 +36,7 @@ RowLayout {
     property alias text: _label.text
     property alias font: _label.font
     property alias flashDuration: _timer.interval
-    property color onColor: Qt.rgba(64/255, 157/255, 160/255, 1)
+    property color onColor: Qt.rgba(215/255, 45/255, 96/255, 1)
     property color offColor: Qt.rgba(45/255, 96/255, 115/255, 1)
 
     //

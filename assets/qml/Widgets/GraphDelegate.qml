@@ -67,52 +67,53 @@ Window {
         }
     }
 
-    Item {
+    ChartView {
+        antialiasing: false
         anchors.fill: parent
-        anchors.margins: -9
-        anchors.topMargin: -11
+        legend.visible: false
+        backgroundRoundness: 0
         enabled: graphWindow.enabled
         visible: graphWindow.enabled
+        backgroundColor: graphWindow.backgroundColor
 
-        ChartView {
-            antialiasing: false
-            anchors.fill: parent
-            legend.visible: false
-            backgroundRoundness: 0
-            theme: ChartView.ChartThemeDark
+        margins {
+            top: 0
+            bottom: 0
+            left: 0
+            right: 0
+        }
 
-            ValueAxis {
-                id: timeAxis
-                min: 0
-                labelFormat: " "
-                lineVisible: false
-                labelsVisible: false
-                tickType: ValueAxis.TicksFixed
-                labelsFont.family: app.monoFont
-                max: CppGraphProvider.displayedPoints
-                gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
-            }
+        ValueAxis {
+            id: timeAxis
+            min: 0
+            labelFormat: " "
+            lineVisible: false
+            labelsVisible: false
+            tickType: ValueAxis.TicksFixed
+            labelsFont.family: app.monoFont
+            max: CppGraphProvider.displayedPoints
+            gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
+        }
 
-            ValueAxis {
-                id: positionAxis
-                min: 0
-                max: 1
-                lineVisible: false
-                tickType: ValueAxis.TicksFixed
-                labelsFont.family: app.monoFont
-                labelsColor: Qt.rgba(81/255, 116/255, 151/255, 1)
-                gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
-            }
+        ValueAxis {
+            id: positionAxis
+            min: 0
+            max: 1
+            lineVisible: false
+            tickType: ValueAxis.TicksFixed
+            labelsFont.family: app.monoFont
+            labelsColor: Qt.rgba(81/255, 116/255, 151/255, 1)
+            gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
+        }
 
-            LineSeries {
-                id: series
-                width: 2
-                axisX: timeAxis
-                useOpenGL: true
-                capStyle: Qt.RoundCap
-                axisYRight: positionAxis
-                color: Qt.rgba(215/255, 45/255, 96/255, 1)
-            }
+        LineSeries {
+            id: series
+            width: 2
+            axisX: timeAxis
+            useOpenGL: true
+            capStyle: Qt.RoundCap
+            axisYRight: positionAxis
+            color: Qt.rgba(215/255, 45/255, 96/255, 1)
         }
     }
 }
