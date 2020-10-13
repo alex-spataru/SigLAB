@@ -1,6 +1,6 @@
 mkdir build
 cd build
 g++ --version
-qmake --version
-$QTDIR/bin/qmake ../SigLAB.pro
+qmake-qt5 --version
+qmake-qt5 ../SigLAB.pro
 make -j 4
