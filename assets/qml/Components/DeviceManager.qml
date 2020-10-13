@@ -192,7 +192,7 @@ Widgets.Window {
                 font.pixelSize: 18
                 font.family: app.monoFont
                 Layout.alignment: Qt.AlignVCenter
-                color: _rx.enabled ? _rx.onColor : _rx.offColor
+                color: _rx.enabled ? palette.highlight : _rx.offColor
             }
 
             Image {
@@ -215,7 +215,7 @@ Widgets.Window {
                 font.pixelSize: 18
                 font.family: app.monoFont
                 Layout.alignment: Qt.AlignVCenter
-                color: _tx.enabled ? _tx.onColor : _tx.offColor
+                color: _tx.enabled ? palette.highlight : _tx.offColor
             }
 
             Widgets.LED {

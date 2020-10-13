@@ -35,6 +35,9 @@ Item {
 
     property string title: ""
 
+    //
+    // Group/dataset updating
+    //
     Connections {
         target: CppQmlBridge
         function onUpdated() {
@@ -51,6 +54,9 @@ Item {
         }
     }
 
+    //
+    // Graph data updating
+    //
     Connections {
         target: CppGraphProvider
         function onDataUpdated() {
@@ -66,6 +72,9 @@ Item {
         }
     }
 
+    //
+    // Main layout
+    //
     ColumnLayout {
         x: 2 * app.spacing
         anchors.fill: parent
