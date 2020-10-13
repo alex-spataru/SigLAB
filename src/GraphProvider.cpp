@@ -60,6 +60,32 @@ double GraphProvider::getValue(const int index) const
    return 0;
 }
 
+double GraphProvider::minimumValue(const int index) const
+{
+   double min = INT_MAX;
+
+   if (index < m_minimumValues.count() && index >= 0)
+      min = m_minimumValues.at(index);
+
+   if (min != INT_MAX)
+      return min;
+
+   return 0;
+}
+
+double GraphProvider::maximumValue(const int index) const
+{
+   double max = INT_MIN;
+
+   if (index < m_maximumValues.count() && index >= 0)
+      max = m_maximumValues.at(index);
+
+   if (max != INT_MIN)
+      return max;
+
+   return 1;
+}
+
 Dataset *GraphProvider::getDataset(const int index) const
 {
    if (index < graphCount() && index >= 0)
@@ -106,6 +132,22 @@ void GraphProvider::updateValues()
          auto vector = new QVector<double>;
          m_pointVectors.append(vector);
       }
+
+      // Register min. values list
+      if (m_minimumValues.count() < (i + 1))
+         m_minimumValues.append(getValue(i));
+
+      // Register max. values list
+      if (m_maximumValues.count() < (i + 1))
+         m_maximumValues.append(getValue(i));
+
+      // Update minimum value
+      if (minimumValue(i) > getValue(i))
+         m_minimumValues.replace(i, getValue(i));
+
+      // Update minimum value
+      if (maximumValue(i) < getValue(i))
+         m_maximumValues.replace(i, getValue(i));
 
       // Remove older items
       if (m_pointVectors.at(i)->count() >= displayedPoints())

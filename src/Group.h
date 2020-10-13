@@ -39,6 +39,7 @@ class Group : public QObject
 
 public:
    Group(QObject *parent = nullptr);
+   ~Group();
 
    int count() const;
    QString title() const;

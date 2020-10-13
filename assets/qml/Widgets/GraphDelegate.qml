@@ -49,18 +49,26 @@ Window {
                 return
 
             // Update maximum value (if required)
-            var value = CppGraphProvider.getValue(graphId)
-            if (value > maximumValue)
-                maximumValue = value
-            if (value < minimumValue)
-                minimumValue = value
+            maximumValue = CppGraphProvider.maximumValue(graphId)
+            minimumValue = CppGraphProvider.minimumValue(graphId)
 
             // Get central value
             var medianValue = Math.max(1, (maximumValue + minimumValue)) / 2
+            if (maximumValue == minimumValue)
+                medianValue = maximumValue
 
             // Center graph verticaly
-            positionAxis.min = medianValue * (1 - 0.5)
-            positionAxis.max = medianValue * (1 + 0.5)
+            var mostDiff = Math.max(Math.abs(minimumValue), Math.abs(maximumValue))
+            var min = medianValue * (1 - 0.5) - Math.abs(medianValue - mostDiff)
+            var max = medianValue * (1 + 0.5) + Math.abs(medianValue - mostDiff)
+            if (minimumValue < 0)
+                min = max * -1
+
+            // Update axes only if needed
+            if (positionAxis.min !== min)
+                positionAxis.min = min
+            if (positionAxis.max !== max)
+                positionAxis.max = max
 
             // Draw graph
             CppGraphProvider.updateGraph(series, graphId)

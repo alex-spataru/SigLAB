@@ -30,6 +30,17 @@ Group::Group(QObject *parent)
 }
 
 /**
+ * Destructor function
+ */
+Group::~Group()
+{
+   for (int i = 0; i < count(); ++i)
+      m_datasets.at(i)->deleteLater();
+
+   m_datasets.clear();
+}
+
+/**
  * @return The number of datasets inside this group
  */
 int Group::count() const

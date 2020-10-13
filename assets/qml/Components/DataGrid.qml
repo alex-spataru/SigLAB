@@ -118,8 +118,12 @@ Item {
                             height: app.spacing
                         }
 
+                        //
+                        // Horizontal range title
+                        //
                         RowLayout {
                             spacing: app.spacing
+                            visible: graphGenerator.count > 0
 
                             Image {
                                 width: sourceSize.width
@@ -144,8 +148,12 @@ Item {
                             }
                         }
 
+                        //
+                        // Horizontal range slider
+                        //
                         RowLayout {
                             spacing: app.spacing
+                            visible: graphGenerator.count > 0
 
                             Slider {
                                 id: slider
@@ -165,12 +173,19 @@ Item {
                             }
                         }
 
+                        //
+                        // Spacer
+                        //
                         Item {
                             height: app.spacing
                         }
 
+                        //
+                        // Group title
+                        //
                         RowLayout {
                             spacing: app.spacing
+                            visible: groupGenerator.count > 0
 
                             Image {
                                 width: sourceSize.width
@@ -195,10 +210,16 @@ Item {
                             }
                         }
 
+                        //
+                        // Semi-spacer
+                        //
                         Item {
                             height: app.spacing / 2
                         }
 
+                        //
+                        // Group switches
+                        //
                         Repeater {
                             model: groupGenerator.model
                             delegate: Switch {
@@ -213,12 +234,19 @@ Item {
                             }
                         }
 
+                        //
+                        // Spacer
+                        //
                         Item {
                             height: app.spacing
                         }
 
+                        //
+                        // Graphs title
+                        //
                         RowLayout {
                             spacing: app.spacing
+                            visible: groupGenerator.count > 0
 
                             Image {
                                 width: sourceSize.width
@@ -243,10 +271,16 @@ Item {
                             }
                         }
 
+                        //
+                        // Semi-spacer
+                        //
                         Item {
                             height: app.spacing / 2
                         }
 
+                        //
+                        // Graph switches
+                        //
                         Repeater {
                             model: graphGenerator.model
                             delegate: Switch {

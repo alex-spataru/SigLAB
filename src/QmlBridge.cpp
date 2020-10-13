@@ -140,19 +140,31 @@ double QmlBridge::gpsLongitude() const
 
 void QmlBridge::update()
 {
+   // Get JSON document
    auto document = JsonParser::getInstance()->document();
 
+   // Validate JSON document
    if (!document.isEmpty())
    {
+      // Get JSON object information
       auto object = document.object();
       auto title = object.value("t").toString();
       auto groups = object.value("g").toArray();
 
+      // We need to have a project title and at least one group
       if (!title.isEmpty() && !groups.isEmpty())
       {
+         // Update title
          m_title = title;
+
+         // Delete existing groups
+         for (int i = 0; i < groupCount(); ++i)
+            m_groups.at(i)->deleteLater();
+
+         // Clear group list
          m_groups.clear();
 
+         // Generate groups & datasets from data frame
          for (auto i = 0; i < groups.count(); ++i)
          {
             auto group = new Group(this);
@@ -162,6 +174,7 @@ void QmlBridge::update()
                group->deleteLater();
          }
 
+         // Update UI
          emit updated();
       }
    }

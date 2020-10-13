@@ -50,6 +50,8 @@ public:
    int displayedPoints() const;
    QList<Dataset *> datasets() const;
    Q_INVOKABLE double getValue(const int index) const;
+   Q_INVOKABLE double minimumValue(const int index) const;
+   Q_INVOKABLE double maximumValue(const int index) const;
    Q_INVOKABLE Dataset *getDataset(const int index) const;
 
 public slots:
@@ -65,6 +67,8 @@ private slots:
 private:
    int m_displayedPoints;
    QList<Dataset *> m_datasets;
+   QList<double> m_maximumValues;
+   QList<double> m_minimumValues;
    QList<QVector<double> *> m_pointVectors;
 };
 
