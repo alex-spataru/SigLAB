@@ -13,9 +13,5 @@ jobs:
   include:
   - os: osx
     osx_image: xcode10.1
-  - os: linux
-    compiler: gcc
-before_deploy:
-  - git config --local user.name "Alex Spataru"
-  - git config --local user.email "alex_spataru@outlook.com"
-  - export FILE=$(ls SigLAB-*)
+  #- os: linux
+  #  compiler: gcc
