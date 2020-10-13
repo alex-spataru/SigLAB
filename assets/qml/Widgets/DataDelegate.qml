@@ -39,9 +39,10 @@ Item {
         color: Qt.rgba(215/255, 45/255, 96/255, 1)
 
         anchors {
+            leftMargin: 0
             left: parent.left
             right: center.left
-            margins: app.spacing
+            margins: app.spacing / 2
             verticalCenter: parent.verticalCenter
         }
     }
@@ -74,7 +75,7 @@ Item {
         anchors {
             left: center.right
             right: units.left
-            margins: app.spacing
+            margins: app.spacing / 2
             verticalCenter: parent.verticalCenter
         }
     }
@@ -88,8 +89,9 @@ Item {
         color: Qt.rgba(81/255, 116/255, 151/255, 1)
 
         anchors {
+            rightMargin: 0
             right: parent.right
-            margins: app.spacing
+            margins: app.spacing / 2
             verticalCenter: parent.verticalCenter
         }
     }

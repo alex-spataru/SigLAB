@@ -49,5 +49,7 @@
         <file>qml/Widgets/LED.qml</file>
         <file>qml/Widgets/MapDelegate.qml</file>
         <file>qml/Widgets/Window.qml</file>
+        <file>icons/chart.svg</file>
+        <file>icons/visibility.svg</file>
     </qresource>
 </RCC>

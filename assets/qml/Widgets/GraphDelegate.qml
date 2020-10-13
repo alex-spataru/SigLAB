@@ -26,12 +26,17 @@ import QtCharts 2.3
 import Dataset 1.0
 
 Window {
+    id: graphWindow
+
     property int graphId: -1
     property real maximumValue: -1000
     property real minimumValue: +1000
 
     spacing: -1
     showIcon: false
+    visible: opacity > 0
+    opacity: enabled ? 1 : 0
+    Behavior on opacity {NumberAnimation{}}
     borderColor: Qt.rgba(81/255, 116/255, 151/255, 1)
     title: CppGraphProvider.getDataset(graphId).title +
            " (" + CppGraphProvider.getDataset(graphId).units + ")"
@@ -39,6 +44,10 @@ Window {
     Connections {
         target: CppGraphProvider
         function onDataUpdated() {
+            // Cancel if window is not enabled
+            if (!graphWindow.enabled)
+                return
+
             // Update X-axis to "scroll" values like an osciloscope
             timeAxis.max = Math.max(CppGraphProvider.numPoints, CppGraphProvider.displayedPoints)
             if (CppGraphProvider.numPoints > CppGraphProvider.displayedPoints)
@@ -81,6 +90,8 @@ Window {
         anchors.fill: parent
         anchors.margins: -9
         anchors.topMargin: -11
+        enabled: graphWindow.enabled
+        visible: graphWindow.enabled
 
         ChartView {
             antialiasing: true

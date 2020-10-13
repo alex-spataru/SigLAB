@@ -29,9 +29,14 @@ import Group 1.0
 import Dataset 1.0
 
 Window {
+    id: groupWindow
+
     spacing: -1
     showIcon: false
     title: group.title
+    visible: opacity > 0
+    opacity: enabled ? 1 : 0
+    Behavior on opacity {NumberAnimation{}}
     borderColor: Qt.rgba(81/255, 116/255, 151/255, 1)
 
     property int groupIndex: 0
@@ -40,7 +45,8 @@ Window {
     Connections {
         target: CppQmlBridge
         function onUpdated() {
-            group = CppQmlBridge.getGroup(groupIndex)
+            if (groupWindow.enabled)
+                group = CppQmlBridge.getGroup(groupIndex)
         }
     }
 
@@ -66,7 +72,7 @@ Window {
         clip: true
         contentWidth: -1
         anchors.fill: parent
-        anchors.margins: app.spacing * 2
+        anchors.margins: app.spacing
 
         ScrollBar.vertical.z: 5
         enabled: contentHeight > parent.width
@@ -75,9 +81,9 @@ Window {
         ScrollBar.vertical.visible: ScrollBar.vertical.size < 1
 
         ColumnLayout {
-            x: 2 * app.spacing
+            x: 0
             spacing: app.spacing
-            width: _sv.width - (_sv.ScrollBar.vertical.visible ? 10 : 0) - 4 * app.spacing
+            width: _sv.width - (_sv.ScrollBar.vertical.visible ? 10 : 0)
 
             Repeater {
                 model: group.datasetCount
