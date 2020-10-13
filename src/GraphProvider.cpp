@@ -53,7 +53,7 @@ quint64 GraphProvider::numPoints() const
 
 quint64 GraphProvider::displayedPoints() const
 {
-    return 60;
+    return 10;
 }
 
 QList<Dataset *> GraphProvider::datasets() const
@@ -113,7 +113,7 @@ void GraphProvider::updateValues()
 
         QPointF point(m_numPoints, getValue(i));
         m_pointVectors.at(i)->append(point);
-        RemoveOldData<QPointF>(m_pointVectors.at(i), displayedPoints());
+        RemoveOldData<QPointF>(m_pointVectors.at(i), displayedPoints() + 2);
     }
 
     // Increment counter
