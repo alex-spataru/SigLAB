@@ -34,6 +34,7 @@ Page {
     //
     property int borderWidth: 3
     property alias icon: _bt.icon
+    property bool gradient: false
     property alias showIcon: _bt.visible
     property color titleColor: palette.brightText
     property color borderColor: palette.highlight
@@ -58,7 +59,7 @@ Page {
     //
     background: Rectangle {
         color: window.backgroundColor
-        border.color: window.borderColor
+        border.color: gStop.color
         border.width: window.borderWidth
         radius: window.borderWidth + 2
     }
@@ -71,10 +72,23 @@ Page {
         color: window.borderColor
         radius: window.borderWidth + 2
 
+        gradient: Gradient {
+            GradientStop {
+                position: 0
+                color: window.borderColor
+            }
+
+            GradientStop {
+                id: gStop
+                position: 1
+                color: window.gradient ? Qt.rgba(5/255, 139/255, 167/255, 1) : window.borderColor
+            }
+        }
+
         Rectangle {
             z: 5
-            color: parent.color
-            height: parent.radius
+            color: gStop.color
+            height: window.gradient ? 1 : parent.radius
 
             anchors {
                 left: parent.left

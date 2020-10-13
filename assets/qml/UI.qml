@@ -59,6 +59,7 @@ Page {
             //
             Widgets.Window {
                 id: dataDis
+                gradient: true
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 opacity: enabled ? 1 : 0
@@ -166,6 +167,7 @@ Page {
             //
             Components.Console {
                 id: consoleWindow
+                gradient: true
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 opacity: enabled ? 1 : 0
@@ -181,6 +183,7 @@ Page {
         //
         Components.DeviceManager {
             id: devMan
+            gradient: true
             Layout.fillHeight: true
             opacity: enabled ? 1 : 0
             enabled: toolbar.devicesChecked

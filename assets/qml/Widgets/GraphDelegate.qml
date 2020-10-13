@@ -121,7 +121,7 @@ Window {
             useOpenGL: true
             capStyle: Qt.RoundCap
             axisYRight: positionAxis
-            color: Qt.rgba(215/255, 45/255, 96/255, 1)
+            color: Qt.rgba(230/255, 224/255, 178/255, 1)
         }
     }
 }

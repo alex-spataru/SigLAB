@@ -36,7 +36,7 @@ Item {
         elide: Label.ElideRight
         font.family: app.monoFont
         horizontalAlignment: Text.AlignLeft
-        color: Qt.rgba(215/255, 45/255, 96/255, 1)
+        color: Qt.rgba(230/255, 224/255, 178/255, 0.6)
 
         anchors {
             leftMargin: 0
@@ -70,7 +70,7 @@ Item {
         elide: Label.ElideRight
         font.family: app.monoFont
         horizontalAlignment: Text.AlignLeft
-        color: Qt.rgba(215/255, 45/255, 96/255, 1)
+        color: Qt.rgba(230/255, 224/255, 178/255, 1)
 
         anchors {
             left: center.right
