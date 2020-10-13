@@ -48,21 +48,6 @@ Window {
             if (!graphWindow.enabled)
                 return
 
-            // Update X-axis to "scroll" values like an osciloscope
-            timeAxis.max = Math.max(CppGraphProvider.numPoints, CppGraphProvider.displayedPoints)
-            if (CppGraphProvider.numPoints > CppGraphProvider.displayedPoints)
-                timeAxis.min = Math.abs(CppGraphProvider.numPoints - CppGraphProvider.displayedPoints)
-            else {
-                timeAxis.min = CppGraphProvider.firstPoint(graphId)
-                timeAxis.max = timeAxis.max + timeAxis.min
-            }
-
-            // Error on scroll, default to fallback mode
-            if (timeAxis.min >= timeAxis.max) {
-                timeAxis.min = 0
-                timeAxis.max = CppGraphProvider.displayedPoints
-            }
-
             // Update maximum value (if required)
             var value = CppGraphProvider.getValue(graphId)
             if (value > maximumValue)
@@ -77,10 +62,6 @@ Window {
             positionAxis.min = medianValue * (1 - 0.5)
             positionAxis.max = medianValue * (1 + 0.5)
 
-            // Update graph axes
-            series.axisX = timeAxis
-            series.axisYRight = positionAxis
-
             // Draw graph
             CppGraphProvider.updateGraph(series, graphId)
         }
@@ -94,22 +75,21 @@ Window {
         visible: graphWindow.enabled
 
         ChartView {
-            antialiasing: true
+            antialiasing: false
             anchors.fill: parent
             legend.visible: false
             backgroundRoundness: 0
             theme: ChartView.ChartThemeDark
-            animationOptions: ChartView.SeriesAnimations
 
             ValueAxis {
                 id: timeAxis
                 min: 0
-                max: 1
                 labelFormat: " "
                 lineVisible: false
                 labelsVisible: false
                 tickType: ValueAxis.TicksFixed
                 labelsFont.family: app.monoFont
+                max: CppGraphProvider.displayedPoints
                 gridLineColor: Qt.rgba(81/255, 116/255, 151/255, 1)
             }
 
@@ -127,8 +107,10 @@ Window {
             LineSeries {
                 id: series
                 width: 2
+                axisX: timeAxis
                 useOpenGL: true
                 capStyle: Qt.RoundCap
+                axisYRight: positionAxis
                 color: Qt.rgba(215/255, 45/255, 96/255, 1)
             }
         }

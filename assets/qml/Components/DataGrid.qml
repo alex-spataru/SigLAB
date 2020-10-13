@@ -116,6 +116,57 @@ Item {
                                 width: sourceSize.width
                                 height: sourceSize.height
                                 sourceSize: Qt.size(18, 18)
+                                source: "qrc:/icons/scatter-plot.svg"
+
+                                ColorOverlay {
+                                    source: parent
+                                    color: palette.text
+                                    anchors.fill: parent
+                                }
+                            }
+
+                            Label {
+                                font.bold: true
+                                text: qsTr("Horizontal Range") + ":"
+                            }
+
+                            Item {
+                                Layout.fillWidth: true
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: app.spacing
+
+                            Slider {
+                                id: slider
+                                to: 100
+                                from: 1
+                                live: false
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignVCenter
+                                value: CppGraphProvider.displayedPoints
+                                onValueChanged: CppGraphProvider.displayedPoints = value
+                            }
+
+                            Label {
+                                font.family: app.monoFont
+                                Layout.alignment: Qt.AlignVCenter
+                                text: Math.ceil(slider.position * (slider.to))
+                            }
+                        }
+
+                        Item {
+                            height: app.spacing
+                        }
+
+                        RowLayout {
+                            spacing: app.spacing
+
+                            Image {
+                                width: sourceSize.width
+                                height: sourceSize.height
+                                sourceSize: Qt.size(18, 18)
                                 source: "qrc:/icons/group.svg"
 
                                 ColorOverlay {

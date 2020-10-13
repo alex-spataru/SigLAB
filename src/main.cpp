@@ -46,6 +46,7 @@ int main(int argc, char **argv)
    app.setOrganizationDomain(APP_SUPPORT_URL);
 
    // Init application modules
+   QQmlApplicationEngine engine;
    auto qmlBridge = QmlBridge::getInstance();
    auto graphProvider = GraphProvider::getInstance();
    auto serialManager = SerialManager::getInstance();
@@ -55,7 +56,6 @@ int main(int argc, char **argv)
    qmlRegisterType<Dataset>("Dataset", 1, 0, "Dataset");
 
    // Init QML interface
-   QQmlApplicationEngine engine;
    QQuickStyle::setStyle("Fusion");
    engine.rootContext()->setContextProperty("CppQmlBridge", qmlBridge);
    engine.rootContext()->setContextProperty("CppGraphProvider", graphProvider);
