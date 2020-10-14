@@ -7,6 +7,9 @@
 #include "Group.h"
 #include "Dataset.h"
 
+/*
+ * Only instance of the class
+ */
 static GraphProvider *INSTANCE = nullptr;
 
 //
@@ -29,6 +32,9 @@ GraphProvider::GraphProvider()
    connect(QmlBridge::getInstance(), SIGNAL(updated()), this, SLOT(updateValues()));
 }
 
+/**
+ * Returns the only instance of the class
+ */
 GraphProvider *GraphProvider::getInstance()
 {
    if (!INSTANCE)
@@ -37,21 +43,35 @@ GraphProvider *GraphProvider::getInstance()
    return INSTANCE;
 }
 
+/**
+ * Returns the number of graph data sources
+ */
 int GraphProvider::graphCount() const
 {
    return datasets().count();
 }
 
+/**
+ * Returns the number of points that are currently displayed on the graph
+ */
 int GraphProvider::displayedPoints() const
 {
    return m_displayedPoints;
 }
 
+/**
+ * Returns a list with the @a Dataset objects that act as data sources
+ * for the graph views
+ */
 QList<Dataset *> GraphProvider::datasets() const
 {
    return m_datasets;
 }
 
+/**
+ * Returns the latest value graphed by the dataset at the
+ * given @a index
+ */
 double GraphProvider::getValue(const int index) const
 {
    if (index < graphCount() && index >= 0)
@@ -60,6 +80,10 @@ double GraphProvider::getValue(const int index) const
    return 0;
 }
 
+/**
+ * Returns the smallest value registered with the dataset
+ * at the given @a index
+ */
 double GraphProvider::minimumValue(const int index) const
 {
    double min = INT_MAX;
@@ -73,6 +97,10 @@ double GraphProvider::minimumValue(const int index) const
    return 0;
 }
 
+/**
+ * Returns the greatest value registered with the dataset
+ * at the given @a index
+ */
 double GraphProvider::maximumValue(const int index) const
 {
    double max = INT_MIN;
@@ -86,6 +114,9 @@ double GraphProvider::maximumValue(const int index) const
    return 1;
 }
 
+/**
+ * Returns a pointer to the dataset object at the given @a index
+ */
 Dataset *GraphProvider::getDataset(const int index) const
 {
    if (index < graphCount() && index >= 0)
@@ -94,6 +125,10 @@ Dataset *GraphProvider::getDataset(const int index) const
    return Q_NULLPTR;
 }
 
+/**
+ * Changes the maximum number of points that should be displayed
+ * in the graph views.
+ */
 void GraphProvider::setDisplayedPoints(const int points)
 {
    if (points != displayedPoints() && points > 0)
@@ -106,6 +141,9 @@ void GraphProvider::setDisplayedPoints(const int points)
    }
 }
 
+/**
+ * Gets the latest values from the datasets that support/need to be graphed
+ */
 void GraphProvider::updateValues()
 {
    // Clear dataset & latest values list
@@ -161,6 +199,11 @@ void GraphProvider::updateValues()
    QTimer::singleShot(10, this, SIGNAL(dataUpdated()));
 }
 
+/**
+ * Updates the graph for the given data @a series prorivder, the @a index
+ * is used to know which dataset object should be used to pull the latest
+ * data point.
+ */
 void GraphProvider::updateGraph(QAbstractSeries *series, const int index)
 {
    // Validation
