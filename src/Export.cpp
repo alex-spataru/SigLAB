@@ -27,12 +27,49 @@
 
 #include <QDir>
 #include <QUrl>
+#include <QProcess>
 #include <QMessageBox>
 #include <QApplication>
 #include <QJsonDocument>
 #include <QDesktopServices>
 
 static Export *INSTANCE = Q_NULLPTR;
+
+static void RevealFile(const QString &pathToReveal)
+{
+
+   // See http://stackoverflow.com/questions/3490336/how-to-reveal-in-finder-or-show-in-explorer-with-qt
+   // for details
+
+   // Mac, Windows support folder or file.
+#if defined(Q_OS_WIN)
+   const QString explorer = Environment::systemEnvironment().searchInPath(QLatin1String("explorer.exe"));
+   if (explorer.isEmpty())
+   {
+      QMessageBox::warning(Q_NULLPTR, tr("Launching Windows Explorer failed"),
+                           tr("Could not find explorer.exe in path to launch Windows Explorer."));
+      return;
+   }
+   QString param;
+   if (!QFileInfo(pathIn).isDir())
+      param = QLatin1String("/select,");
+   param += QDir::toNativeSeparators(pathIn);
+   QString command = explorer + " " + param;
+   QString command = explorer + " " + param;
+   QProcess::startDetached(command);
+
+#elif defined(Q_OS_MAC)
+   QStringList scriptArgs;
+   scriptArgs << QLatin1String("-e")
+              << QString::fromLatin1("tell application \"Finder\" to reveal POSIX file \"%1\"").arg(pathToReveal);
+   QProcess::execute(QLatin1String("/usr/bin/osascript"), scriptArgs);
+   scriptArgs.clear();
+   scriptArgs << QLatin1String("-e") << QLatin1String("tell application \"Finder\" to activate");
+   QProcess::execute("/usr/bin/osascript", scriptArgs);
+#else
+   QDesktopServices::openUrl(QUrl::fromLocalFile(pathToReveal));
+#endif
+}
 
 Export *Export::getInstance()
 {
@@ -65,7 +102,7 @@ bool Export::isOpen() const
 void Export::openCsv()
 {
    if (isOpen())
-      QDesktopServices::openUrl(QUrl::fromLocalFile(m_csvFile.fileName()));
+      RevealFile(m_csvFile.fileName());
    else
       QMessageBox::critical(Q_NULLPTR, tr("CSV file not open"), tr("Cannot find CSV export file!"), QMessageBox::Ok);
 }
