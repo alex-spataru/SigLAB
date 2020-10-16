@@ -39,6 +39,7 @@ Page {
     property color titleColor: palette.brightText
     property color borderColor: palette.highlight
     property color backgroundColor: Qt.darker(palette.base)
+    property color gradientColor: window.gradient ? Qt.rgba(5/255, 139/255, 167/255, 1) : window.borderColor
 
     //
     // Animations
@@ -59,9 +60,9 @@ Page {
     //
     background: Rectangle {
         color: window.backgroundColor
-        border.color: gStop.color
-        border.width: window.borderWidth
         radius: window.borderWidth + 2
+        border.width: window.borderWidth
+        border.color: window.gradientColor
     }
 
     //
@@ -79,15 +80,14 @@ Page {
             }
 
             GradientStop {
-                id: gStop
                 position: 1
-                color: window.gradient ? Qt.rgba(5/255, 139/255, 167/255, 1) : window.borderColor
+                color: window.gradientColor
             }
         }
 
         Rectangle {
             z: 5
-            color: gStop.color
+            color: window.gradientColor
             height: window.gradient ? 1 : parent.radius
 
             anchors {

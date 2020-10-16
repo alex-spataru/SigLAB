@@ -28,10 +28,13 @@
 #include "Group.h"
 #include "Dataset.h"
 
+#include "Export.h"
 #include "AppInfo.h"
 #include "QmlBridge.h"
 #include "GraphProvider.h"
 #include "SerialManager.h"
+
+#include "ModuleManager.h"
 
 int main(int argc, char **argv)
 {
@@ -47,6 +50,7 @@ int main(int argc, char **argv)
 
    // Init application modules
    QQmlApplicationEngine engine;
+   auto csvExport = Export::getInstance();
    auto qmlBridge = QmlBridge::getInstance();
    auto graphProvider = GraphProvider::getInstance();
    auto serialManager = SerialManager::getInstance();
@@ -57,6 +61,7 @@ int main(int argc, char **argv)
 
    // Init QML interface
    QQuickStyle::setStyle("Fusion");
+   engine.rootContext()->setContextProperty("CppExport", csvExport);
    engine.rootContext()->setContextProperty("CppQmlBridge", qmlBridge);
    engine.rootContext()->setContextProperty("CppGraphProvider", graphProvider);
    engine.rootContext()->setContextProperty("CppSerialManager", serialManager);
@@ -69,6 +74,11 @@ int main(int argc, char **argv)
    // QML error, exit
    if (engine.rootObjects().isEmpty())
       return EXIT_FAILURE;
+
+   // Create instance of module manager to automatically
+   // call destructors of singleton application modules
+   ModuleManager moduleManager;
+   Q_UNUSED(moduleManager);
 
    // Enter application event loop
    return app.exec();

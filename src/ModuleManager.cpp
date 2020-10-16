@@ -20,41 +20,24 @@
  * THE SOFTWARE.
  */
 
-#ifndef EXPORT_H
-#define EXPORT_H
+#include "ModuleManager.h"
 
-#include <QFile>
-#include <QList>
-#include <QObject>
-#include <QJsonObject>
+#include "Export.h"
+#include "QmlBridge.h"
+#include "GraphProvider.h"
+#include "SerialManager.h"
 
-class Export : public QObject
+#include <QApplication>
+
+ModuleManager::ModuleManager()
 {
-   Q_OBJECT
-   Q_PROPERTY(bool isOpen READ isOpen NOTIFY openChanged)
+   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteModules()));
+}
 
-signals:
-   void openChanged();
-
-public:
-   static Export *getInstance();
-   bool isOpen() const;
-
-private:
-   Export();
-   ~Export();
-
-public slots:
-   void openCsv();
-
-private slots:
-   void closeFile();
-   void writeValues();
-   void updateValues();
-
-private:
-   QFile m_csvFile;
-   QList<QPair<QDateTime, QJsonObject>> m_jsonList;
-};
-
-#endif
+void ModuleManager::deleteModules()
+{
+   Export::getInstance()->deleteLater();
+   QmlBridge::getInstance()->deleteLater();
+   GraphProvider::getInstance()->deleteLater();
+   SerialManager::getInstance()->deleteLater();
+}

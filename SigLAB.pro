@@ -115,6 +115,7 @@ HEADERS += \
     src/GraphProvider.h \
     src/Group.h \
     src/JsonParser.h \
+    src/ModuleManager.h \
     src/QmlBridge.h \
     src/SerialManager.h
 
@@ -124,6 +125,7 @@ SOURCES += \
     src/GraphProvider.cpp \
     src/Group.cpp \
     src/JsonParser.cpp \
+    src/ModuleManager.cpp \
     src/QmlBridge.cpp \
     src/SerialManager.cpp \
     src/main.cpp

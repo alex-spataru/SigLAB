@@ -20,41 +20,24 @@
  * THE SOFTWARE.
  */
 
-#ifndef EXPORT_H
-#define EXPORT_H
+#ifndef MODULE_MANAGER_H
+#define MODULE_MANAGER_H
 
-#include <QFile>
-#include <QList>
 #include <QObject>
-#include <QJsonObject>
+#include <QQmlEngine>
 
-class Export : public QObject
+class ModuleManager : public QObject
 {
    Q_OBJECT
-   Q_PROPERTY(bool isOpen READ isOpen NOTIFY openChanged)
-
-signals:
-   void openChanged();
 
 public:
-   static Export *getInstance();
-   bool isOpen() const;
-
-private:
-   Export();
-   ~Export();
-
-public slots:
-   void openCsv();
+   ModuleManager();
 
 private slots:
-   void closeFile();
-   void writeValues();
-   void updateValues();
+   void deleteModules();
 
 private:
-   QFile m_csvFile;
-   QList<QPair<QDateTime, QJsonObject>> m_jsonList;
+   QQmlEngine *m_engine;
 };
 
 #endif

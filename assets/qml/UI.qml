@@ -69,6 +69,7 @@ Page {
                 TabBar {
                     id: tabBar
                     contentHeight: 32
+                    palette.button: Qt.rgba(45/255, 96/255, 115/255, 1)
                     visible: CppQmlBridge.gpsSupported
                     enabled: CppQmlBridge.groupCount > 0
                     opacity: CppQmlBridge.groupCount > 0 ? 1 : 0
@@ -79,6 +80,7 @@ Page {
                     anchors {
                         leftMargin: 3
                         rightMargin: 3
+                        topMargin: -2
                         top: parent.top
                         left: parent.left
                         right: parent.right
@@ -92,6 +94,18 @@ Page {
                     TabButton {
                         text: qsTr("GPS Map")
                         enabled: CppQmlBridge.gpsSupported
+                    }
+                }
+
+                Rectangle {
+                    height: 1
+                    color: palette.base
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                        leftMargin: dataDis.borderWidth
+                        rightMargin: dataDis.borderWidth
                     }
                 }
 
