@@ -34,8 +34,15 @@
 #include <QJsonDocument>
 #include <QDesktopServices>
 
+/*
+ * Only instance of the class
+ */
 static Export *INSTANCE = Q_NULLPTR;
 
+/**
+ * Reveals the file contained in @a pathToReveal in Explorer/Finder.
+ * On GNU/Linux, this function shall open the file directly with the desktop services.
+ */
 static void RevealFile(const QString &pathToReveal)
 {
 
@@ -63,6 +70,9 @@ static void RevealFile(const QString &pathToReveal)
 #endif
 }
 
+/**
+ * Returns the only instance of the class
+ */
 Export *Export::getInstance()
 {
    if (!INSTANCE)
@@ -71,6 +81,10 @@ Export *Export::getInstance()
    return INSTANCE;
 }
 
+/**
+ * Connect JSON Parser & Serial Manager signals to begin registering
+ * JSON dataframes into JSON list.
+ */
 Export::Export()
 {
    auto jp = JsonParser::getInstance();
@@ -81,16 +95,25 @@ Export::Export()
    QTimer::singleShot(1000, this, SLOT(writeValues()));
 }
 
+/**
+ * Close file & finnish write-operations before destroying the class
+ */
 Export::~Export()
 {
    closeFile();
 }
 
+/**
+ * Returns @c true if the CSV output file is open
+ */
 bool Export::isOpen() const
 {
    return m_csvFile.isOpen();
 }
 
+/**
+ * Open the CSV file in the Explorer/Finder window
+ */
 void Export::openCsv()
 {
    if (isOpen())
@@ -99,6 +122,9 @@ void Export::openCsv()
       QMessageBox::critical(Q_NULLPTR, tr("CSV file not open"), tr("Cannot find CSV export file!"), QMessageBox::Ok);
 }
 
+/**
+ * Write all remaining JSON frames & close the CSV file
+ */
 void Export::closeFile()
 {
    if (isOpen())
@@ -111,6 +137,11 @@ void Export::closeFile()
    }
 }
 
+/**
+ * Creates a CSV file based on the JSON frames contained in the JSON list.
+ * @note This function is called periodically every 1 second. It shall write
+ *       at maximum 10 rows to avoid blocking the rest of the program.
+ */
 void Export::writeValues()
 {
    for (int k = 0; k < qMin(m_jsonList.count(), 10); ++k)
@@ -232,6 +263,10 @@ void Export::writeValues()
    QTimer::singleShot(1000, this, SLOT(writeValues()));
 }
 
+/**
+ * Obtains the latest JSON dataframe & appends it to the JSON list
+ * (which is later read & written to the CSV file).
+ */
 void Export::updateValues()
 {
    // Ignore if serial device is not connected

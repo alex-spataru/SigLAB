@@ -24,7 +24,7 @@
 #define APP_INFO_H
 
 #define APP_NAME "SigLAB"
-#define APP_VERSION "0.0.1"
+#define APP_VERSION "1.0.0"
 #define APP_DEVELOPER "Alex Spataru"
 #define APP_SUPPORT_URL "https://github.com/alex-spataru/siglab/"
 

@@ -19,6 +19,10 @@ QT_CHARTS_USE_NAMESPACE
 Q_DECLARE_METATYPE(QAbstractSeries *)
 Q_DECLARE_METATYPE(QAbstractAxis *)
 
+/**
+ * Sets the maximum displayed points to 10, connects SIGNALS/SLOTS
+ * & calls QML/Qt magic functions to deal with QML charts from C++.
+ */
 GraphProvider::GraphProvider()
 {
    // Start with 10 points
