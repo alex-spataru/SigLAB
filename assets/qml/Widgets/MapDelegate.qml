@@ -145,7 +145,7 @@ ColumnLayout {
             copyrightsVisible: false
             color: Universal.background
             anchors.margins: parent.border.width
-            zoomLevel: (map.minimumZoomLevel + map.maximumZoomLevel) / 2
+            zoomLevel: (map.minimumZoomLevel + map.maximumZoomLevel) * 0.8
 
             MapQuickItem {
                 sourceItem: Rectangle {
