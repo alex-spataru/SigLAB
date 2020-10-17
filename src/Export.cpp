@@ -28,6 +28,7 @@
 #include <QDir>
 #include <QUrl>
 #include <QProcess>
+#include <QFileInfo>
 #include <QMessageBox>
 #include <QApplication>
 #include <QJsonDocument>
@@ -43,21 +44,12 @@ static void RevealFile(const QString &pathToReveal)
 
    // Mac, Windows support folder or file.
 #if defined(Q_OS_WIN)
-   const QString explorer = Environment::systemEnvironment().searchInPath(QLatin1String("explorer.exe"));
-   if (explorer.isEmpty())
-   {
-      QMessageBox::warning(Q_NULLPTR, tr("Launching Windows Explorer failed"),
-                           tr("Could not find explorer.exe in path to launch Windows Explorer."));
-      return;
-   }
-   QString param;
-   if (!QFileInfo(pathIn).isDir())
-      param = QLatin1String("/select,");
-   param += QDir::toNativeSeparators(pathIn);
-   QString command = explorer + " " + param;
-   QString command = explorer + " " + param;
-   QProcess::startDetached(command);
-
+   QStringList param;
+   const QFileInfo fileInfo(pathToReveal);
+   if (!fileInfo.isDir())
+      param += QLatin1String("/select,");
+   param += QDir::toNativeSeparators(fileInfo.canonicalFilePath());
+   QProcess::startDetached("explorer.exe", param);
 #elif defined(Q_OS_MAC)
    QStringList scriptArgs;
    scriptArgs << QLatin1String("-e")
@@ -182,7 +174,7 @@ void Export::writeValues()
       }
 
       // Prepend current time
-      titles.prepend("RX Time");
+      titles.prepend("SigLAB RX Date/Time");
       values.prepend(dateTime.toString("yyyy/MMM/dd/ HH:mm:ss::zzz"));
 
       // File not open, create it & add cell titles
