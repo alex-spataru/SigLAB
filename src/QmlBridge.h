@@ -24,6 +24,7 @@
 #define QML_BRIDGE_H
 
 #include <QObject>
+#include <QVariant>
 
 class Group;
 class QmlBridge : public QObject

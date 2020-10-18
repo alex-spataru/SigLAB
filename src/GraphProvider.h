@@ -26,6 +26,7 @@
 #include <QList>
 #include <QObject>
 #include <QVector>
+#include <QVariant>
 #include <QAbstractSeries>
 
 QT_CHARTS_USE_NAMESPACE

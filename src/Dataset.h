@@ -24,6 +24,7 @@
 #define DATASET_H
 
 #include <QObject>
+#include <QVariant>
 #include <QJsonObject>
 
 class Dataset : public QObject

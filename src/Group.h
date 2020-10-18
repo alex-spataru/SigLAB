@@ -25,6 +25,7 @@
 
 #include <QList>
 #include <QObject>
+#include <QVariant>
 #include <QJsonArray>
 #include <QJsonObject>
 
