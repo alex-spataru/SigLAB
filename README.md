@@ -8,7 +8,7 @@
 
 ### :warning: NOTICE
 
-I have moved this project to a new home ([https://github.com/Serial-Studio/Serial-Studio](https://github.com/Serial-Studio/Serial-Studio)). Further development of this project shall be done on the ´Serial-Studio´repository.
+I have moved this project to a new home ([https://github.com/Serial-Studio/Serial-Studio](https://github.com/Serial-Studio/Serial-Studio)). Further development of this project shall be done on the `Serial-Studio` repository.
 
 ## Introduction
 
