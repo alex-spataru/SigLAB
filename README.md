@@ -20,44 +20,44 @@ The communication protocol is implemented through a JSON document. For example, 
 
 ```json
 {
-    "t":"CanSat 2020",							/* Project title */
-    "g":[										/* Project data group array */
+    "t":"CanSat 2020",					/* Project title */
+    "g":[						/* Project data group array */
         {
-            "t":"Mission Status",				/* Group title */
-            "d":[								/* Group dataset array */
+            "t":"Mission Status",			/* Group title */
+            "d":[					/* Group dataset array */
                 {
                     "t":"Mission Time",			/* Dataset title */
-                    "v":"%s"						/* Dataset value */
+                    "v":"%s"			        /* Dataset value */
                 },
                 {
                     "t":"Packet Count",			/* Dataset title */
-                    "v":"%s"						/* Dataset value */
+                    "v":"%s"				/* Dataset value */
                 },
                 {
                     "t":"Software State",		/* Dataset title */
-                    "v":"%s"						/* Dataset value */
+                    "v":"%s"				/* Dataset value */
                 },
                 {
                     "t":"Battery Voltage",		/* Dataset title */
-                    "v":"%s",					/* Dataset value */
-                    "g":true,					/* Graph dataset */
-                    "u":"mV"						/* Dataset units */
+                    "v":"%s",			        /* Dataset value */
+                    "g":true,				/* Graph dataset */
+                    "u":"mV"				/* Dataset units */
                 }
             ]
         },
         {
-            "t":"Sensor Readings",				/* Group title */
-            "d":[								/* Group dataset array */
+            "t":"Sensor Readings",			/* Group title */
+            "d":[					/* Group dataset array */
                 {	
-                    "t":"Altitude",				/* Dataset title */
-                    "v":"%s",					/* Dataset value */
-                    "u":"m"						/* Dataset units */
+                    "t":"Altitude",			/* Dataset title */
+                    "v":"%s",				/* Dataset value */
+                    "u":"m"				/* Dataset units */
                 },
                 {
-                    "t":"Pressure",				/* ... */
-                    "v":"%s",					/* ... */
-                    "g":true,					/* ... */
-                    "u":"KPa"					/* ... */
+                    "t":"Pressure",			/* Dataset title */
+                    "v":"%s",				/* Dataset value */
+                    "g":true,				/* Graph dataset */
+                    "u":"KPa"				/* Dataset units */
                 },
                 {
                     "t":"Temperature",			/* ... */
@@ -66,7 +66,7 @@ The communication protocol is implemented through a JSON document. For example, 
                     "u":"ºC"
                 },
                 {
-                    "t":"Airspeed",				/* ... */
+                    "t":"Airspeed",			/* ... */
                     "v":"%s",
                     "u":"m/s"
                 },
@@ -77,7 +77,7 @@ The communication protocol is implemented through a JSON document. For example, 
             ]
         },
         {
-            "t":"GPS",							/* ... */
+            "t":"GPS",					/* ... */
             "d":[
                 {
                     "t":"UTC Time",
