@@ -18,7 +18,7 @@ Furthermore, this approach can be extended to almost any type of project that in
 
 The communication protocol is implemented through a JSON document. For example, my CanSat team uses the following template:
 
-```json
+```
 {
     "t":"CanSat 2020",					/* Project title */
     "g":[						/* Project data group array */
