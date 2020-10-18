@@ -25,6 +25,8 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 
+#include <QSimpleUpdater.h>
+
 #include "Group.h"
 #include "Dataset.h"
 
@@ -87,6 +89,12 @@ int main(int argc, char **argv)
    // call destructors of singleton application modules
    ModuleManager moduleManager;
    Q_UNUSED(moduleManager);
+
+   // Check for updates
+   QString url = "https://raw.githubusercontent.com/alex-spataru/SigLAB/master/updates.json";
+   QSimpleUpdater::getInstance()->setNotifyOnUpdate(url, true);
+   QSimpleUpdater::getInstance()->setNotifyOnFinish(url, false);
+   QSimpleUpdater::getInstance()->checkForUpdates(url);
 
    // Enter application event loop
    return app.exec();
