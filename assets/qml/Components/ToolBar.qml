@@ -44,6 +44,11 @@ ToolBar {
     readonly property string _btSpacer: "  "
 
     //
+    // Custom signals
+    //
+    signal aboutClicked()
+
+    //
     // Settings handler
     //
     Settings {
@@ -128,6 +133,17 @@ ToolBar {
             text: (checked ? qsTr("Exit Fullscreen") : qsTr("Enter Fullscreen")) + _btSpacer
             icon.source: checked ? "qrc:/icons/fullscreen-exit.svg" :
                                    "qrc:/icons/fullscreen.svg"
+        }
+
+        Button {
+            flat: true
+            icon.width: 24
+            icon.height: 24
+            text: qsTr("About")
+            Layout.fillHeight: true
+            icon.color: palette.text
+            onClicked: toolbar.aboutClicked()
+            icon.source: "qrc:/icons/info.svg"
         }
 
         Item {

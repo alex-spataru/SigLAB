@@ -36,6 +36,14 @@
 
 #include "ModuleManager.h"
 
+/**
+ * @brief Entry-point function of the application
+ *
+ * @param argc argument count
+ * @param argv argument data
+ *
+ * @return qApp exit code
+ */
 int main(int argc, char **argv)
 {
    // Set application attributes

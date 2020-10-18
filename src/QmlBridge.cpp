@@ -39,6 +39,9 @@ QmlBridge::QmlBridge()
    connect(jp, SIGNAL(packetReceived()), this, SLOT(update()));
 }
 
+/**
+ * Returns the only instance of the class
+ */
 QmlBridge *QmlBridge::getInstance()
 {
    if (!INSTANCE)
@@ -72,6 +75,12 @@ QList<Group *> QmlBridge::groups() const
    return m_groups;
 }
 
+/**
+ * Returns a pointer to the group object registered with
+ * the given @a index.
+ *
+ * If @a index is invalid, then @c Q_NULLPTR is returned.
+ */
 Group *QmlBridge::getGroup(const int index)
 {
    if (index < groupCount() && index >= 0)
@@ -80,6 +89,11 @@ Group *QmlBridge::getGroup(const int index)
    return Q_NULLPTR;
 }
 
+/**
+ * Returns a pointer to the group that handles GPS data.
+ *
+ * If no GPS group is available, then @c Q_NULLPTR is returned.
+ */
 Group *QmlBridge::gpsGroup() const
 {
    foreach (Group *group, groups())
@@ -91,11 +105,22 @@ Group *QmlBridge::gpsGroup() const
    return Q_NULLPTR;
 }
 
+/**
+ * Returns @c true if there is a group that handles GPS data
+ * in the current JSON data frame.
+ */
 bool QmlBridge::gpsSupported() const
 {
    return gpsGroup() != Q_NULLPTR;
 }
 
+/**
+ * Returns the GPS altitude contained in the current JSON
+ * data frame.
+ *
+ * @note If the is no GPS data group in the JSON frame,
+ *       this function shall return '0.0'
+ */
 double QmlBridge::gpsAltitude() const
 {
    if (gpsSupported())
@@ -110,6 +135,13 @@ double QmlBridge::gpsAltitude() const
    return 0;
 }
 
+/**
+ * Returns the GPS latitude contained in the current JSON
+ * data frame.
+ *
+ * @note If the is no GPS data group in the JSON frame,
+ *       this function shall return '0.0'
+ */
 double QmlBridge::gpsLatitude() const
 {
    if (gpsSupported())
@@ -124,6 +156,13 @@ double QmlBridge::gpsLatitude() const
    return 0;
 }
 
+/**
+ * Returns the GPS longitude contained in the current JSON
+ * data frame.
+ *
+ * @note If the is no GPS data group in the JSON frame,
+ *       this function shall return '0.0'
+ */
 double QmlBridge::gpsLongitude() const
 {
    if (gpsSupported())
@@ -138,6 +177,19 @@ double QmlBridge::gpsLongitude() const
    return 0;
 }
 
+/**
+ * Extracts project title & groups from the latest JSON
+ * frame interpretted by the @a JsonParser class.
+ *
+ * Afterwards, the function shall generate a list with
+ * @c Group objects from the data. Each @c Group objcet
+ * shall generate a list with the @c Dataset objects
+ * asociated with the group.
+ *
+ * @note The function shall only re-generate @c Group &
+ *       @c Dataset objects if the current JSON data frame
+ *       is valid.
+ */
 void QmlBridge::update()
 {
    // Get JSON document

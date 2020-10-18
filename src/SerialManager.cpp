@@ -144,6 +144,10 @@ int SerialManager::maxBufferSize() const
    return m_maxBufferSize;
 }
 
+/**
+ * Returns the size of the data received (and successfully read) from the
+ * serial device.
+ */
 QString SerialManager::receivedBytes() const
 {
    QString value;
@@ -548,6 +552,12 @@ void SerialManager::setParity(const quint8 parityIndex)
    qInfo() << Q_FUNC_INFO << "Serial port parity set to" << parity();
 }
 
+/**
+ * Changes the baud rate of the serial port.
+ *
+ * @note This function is meant to be used with a combobox in the
+ *       QML interface
+ */
 void SerialManager::setBaudRate(const quint8 baudRateIndex)
 {
    // Argument verifications
@@ -599,6 +609,12 @@ void SerialManager::setBaudRate(const quint8 baudRateIndex)
    qInfo() << Q_FUNC_INFO << "Baud rate set to" << baudRate();
 }
 
+/**
+ * Changes the data bits of the serial port.
+ *
+ * @note This function is meant to be used with a combobox in the
+ *       QML interface
+ */
 void SerialManager::setDataBits(const quint8 dataBitsIndex)
 {
    // Argument verification
@@ -638,6 +654,12 @@ void SerialManager::setDataBits(const quint8 dataBitsIndex)
    qInfo() << Q_FUNC_INFO << "Data bits set to" << dataBits();
 }
 
+/**
+ * Changes the stop bits of the serial port.
+ *
+ * @note This function is meant to be used with a combobox in the
+ *       QML interface
+ */
 void SerialManager::setStopBits(const quint8 stopBitsIndex)
 {
    // Argument verification
@@ -674,6 +696,16 @@ void SerialManager::setStopBits(const quint8 stopBitsIndex)
    qInfo() << Q_FUNC_INFO << "Stop bits set to" << stopBits();
 }
 
+/**
+ * Changes the maximum allowed size of the incoming data buffer.
+ *
+ * @note Incoming data is stored instide a temp. buffer, which is
+ *       later sliced into sections so that each data frame can
+ *       be interpreted separately.
+ *       If we receive invalid data from the serial port, this
+ *       buffer shall be automatically managed in order to avoid
+ *       excessive memory consumption.
+ */
 void SerialManager::setMaxBufferSize(const int maxBufferSize)
 {
    // Update max. buffer size if it's different from current value
@@ -694,6 +726,17 @@ void SerialManager::setMaxBufferSize(const int maxBufferSize)
    }
 }
 
+/**
+ * Changes the start sequence used for the communication protocol.
+ *
+ * We need a start and an end sequence in order to separate incoming data
+ * and generate 'slices' of valid data frames.
+ *
+ * @note By default, the start sequence is set to '/ *', we have removed
+ *       the option to change the start sequence from the QML interface.
+ *       However, this function was left in order to maintain a nice
+ *       software architecture.
+ */
 void SerialManager::setStartSequence(const QString &sequence)
 {
    // Update start sequency only if necessary
@@ -705,6 +748,17 @@ void SerialManager::setStartSequence(const QString &sequence)
    }
 }
 
+/**
+ * Changes the end sequence used for the communication protocol.
+ *
+ * We need a start and an end sequence in order to separate incoming data
+ * and generate 'slices' of valid data frames.
+ *
+ * @note By default, the end sequence is set to '* /', we have removed
+ *       the option to change the start sequence from the QML interface.
+ *       However, this function was left in order to maintain a nice
+ *       software architecture.
+ */
 void SerialManager::setFinishSequence(const QString &sequence)
 {
    // Update end sequence only if necesessary
@@ -716,6 +770,12 @@ void SerialManager::setFinishSequence(const QString &sequence)
    }
 }
 
+/**
+ * Changes the flow control option of the serial port.
+ *
+ * @note This function is meant to be used with a combobox in the
+ *       QML interface
+ */
 void SerialManager::setFlowControl(const quint8 flowControlIndex)
 {
    // Argument verification
@@ -752,6 +812,11 @@ void SerialManager::setFlowControl(const quint8 flowControlIndex)
    qInfo() << Q_FUNC_INFO << "Flow control set to" << flowControl();
 }
 
+/**
+ * Sets the text document object to be used as a serial console printout.
+ * We need to do this from  C++ so that we have greater control over
+ * the memory consumption of the text console.
+ */
 void SerialManager::setTextDocument(QQuickTextDocument *textDocument)
 {
    // Delete previous text cursor
@@ -773,6 +838,11 @@ void SerialManager::setTextDocument(QQuickTextDocument *textDocument)
    emit textDocumentChanged();
 }
 
+/**
+ * Reads incoming data from the serial device, updates the serial console object,
+ * registers incoming data to temporary buffer & extracts valid data frames from
+ * the buffer.
+ */
 void SerialManager::onDataReceived()
 {
    // Verify that port is still alive
@@ -806,7 +876,7 @@ void SerialManager::onDataReceived()
       // Check if data contains start sequence
       auto start = startSequence().toUtf8();
       auto finish = finishSequence().toUtf8();
-      if (m_tempBuffer.contains(start))
+      while (m_tempBuffer.contains(start))
       {
          // Begin reading from start sequence index
          auto buffer = m_tempBuffer;
@@ -831,6 +901,9 @@ void SerialManager::onDataReceived()
    }
 }
 
+/**
+ * Disconnects from the current serial device and clears temp. data
+ */
 void SerialManager::disconnectDevice()
 {
    // Check if serial port pointer is valid
@@ -869,6 +942,10 @@ void SerialManager::disconnectDevice()
    emit connectedChanged();
 }
 
+/**
+ * Clears data from the serial console object if log length
+ * exceeds 10 KB.
+ */
 void SerialManager::reduceDocumentSize()
 {
    if (m_textDocument && m_textCursor)
@@ -878,6 +955,10 @@ void SerialManager::reduceDocumentSize()
    }
 }
 
+/**
+ * Scans for new serial ports available & generates a QStringList
+ * with current serial ports.
+ */
 void SerialManager::refreshSerialDevices()
 {
    // Create device list, starting with dummy header

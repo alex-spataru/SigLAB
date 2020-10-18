@@ -29,11 +29,18 @@
 
 #include <QApplication>
 
+/**
+ * Connect SIGNALS/SLOTS to call singleton destructors before
+ * the application quits.
+ */
 ModuleManager::ModuleManager()
 {
    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteModules()));
 }
 
+/**
+ * Calls the destructor functions of the singleton classes.
+ */
 void ModuleManager::deleteModules()
 {
    Export::getInstance()->deleteLater();

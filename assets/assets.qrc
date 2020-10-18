@@ -51,5 +51,6 @@
         <file>qml/Widgets/Window.qml</file>
         <file>icons/chart.svg</file>
         <file>icons/visibility.svg</file>
+        <file>qml/About.qml</file>
     </qresource>
 </RCC>

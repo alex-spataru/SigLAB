@@ -143,4 +143,5 @@ DISTFILES += \
     assets/qml/Widgets/LED.qml \
     assets/qml/Widgets/MapDelegate.qml \
     assets/qml/Widgets/Window.qml \
-    assets/qml/main.qml
+    assets/qml/main.qml \
+    assets/qml/About.qml

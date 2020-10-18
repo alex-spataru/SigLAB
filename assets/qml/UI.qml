@@ -37,6 +37,7 @@ Page {
     //
     header: Components.ToolBar {
         id: toolbar
+        onAboutClicked: about.show()
     }
 
     //
@@ -202,5 +203,14 @@ Page {
             opacity: enabled ? 1 : 0
             enabled: toolbar.devicesChecked
         }
+    }
+
+    //
+    // About window
+    //
+    About {
+        id: about
+        visible: false
+        palette: app.palette
     }
 }
