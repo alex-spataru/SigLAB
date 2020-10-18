@@ -6,7 +6,7 @@
 
 [![Build Status](https://api.travis-ci.org/alex-spataru/SigLAB.svg?branch=master)](https://travis-ci.org/alex-spataru/SigLAB)
 
-## :warning: NOTICE
+### :warning: NOTICE
 
 I have moved this project to a new home ([https://github.com/Serial-Studio/Serial-Studio](https://github.com/Serial-Studio/Serial-Studio)). Further development of this project shall be done on the ´Serial-Studio´repository.
 
