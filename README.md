@@ -60,44 +60,35 @@ The communication protocol is implemented through a JSON document. For example, 
                     "u":"KPa"				/* Dataset units */
                 },
                 {
-                    "t":"Temperature",			/* ... */
-                    "v":"%s",
-                    "g":true,
-                    "u":"ºC"
-                },
-                {
-                    "t":"Airspeed",			/* ... */
-                    "v":"%s",
-                    "u":"m/s"
-                },
-                {
-                    "t":"Particle Count",		/* ... */
-                    "v":"%s"
+                    "t":"Temperature",			/* Dataset title */
+                    "v":"%s",				/* Dataset value */
+                    "g":true,				/* Graph dataset */
+                    "u":"ºC"				/* Dataset units */
                 }
             ]
         },
         {
-            "t":"GPS",					/* ... */
-            "d":[
+            "t":"GPS",					/* GPS Group title */
+            "d":[					/* Group dataset array */
                 {
-                    "t":"UTC Time",
-                    "v":"%s"
+                    "t":"UTC Time",			/* Dataset title */
+                    "v":"%s"				/* Dataset value */
                 },
                 {
-                    "t":"Longitude",
-                    "v":"%s"
+                    "t":"Longitude",			/* Dataset title */
+                    "v":"%s"				/* Dataset value */
                 },
                 {
-                    "t":"Latitude",
-                    "v":"%s"
+                    "t":"Latitude",			/* Dataset title */
+                    "v":"%s"				/* Dataset value */
                 },
                 {
-                    "t":"Altitude",
-                    "v":"%s"
+                    "t":"Altitude",			/* Dataset title */
+                    "v":"%s"				/* Dataset value */
                 },
                 {
-                    "t":"Num. Sats",
-                    "v":"%s"
+                    "t":"Num. Sats",			/* Dataset title */
+                    "v":"%s"				/* Dataset value */
                 }
             ]
         }
